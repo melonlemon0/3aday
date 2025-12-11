@@ -161,7 +161,7 @@
     }
     .user-grid {
       display: flex;
-      gap: 18px;
+      gap: 14px;
       justify-content: center;
       flex-wrap: wrap;
       margin-top: 10px;
@@ -170,12 +170,12 @@
       border-radius: 18px;
       border: 1px solid #c9def7;
       background: #ecf3ff;
-      padding: 18px 22px;
-      min-width: 150px;
+      padding: 12px 16px;
+      min-width: 130px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       transition: transform 0.08s, box-shadow 0.12s, background 0.12s;
       font-size: 1rem;
@@ -430,6 +430,7 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
       font-size: 0.95rem;
+      /* ✅ no fixed height: height grows with content */
     }
     .weekday {
       text-align: center;
@@ -441,7 +442,6 @@
     .cell {
       border-radius: 10px;
       padding: 6px 5px;
-      min-height: 84px;
       cursor: pointer;
       background: #eaf1ff;
       border: 1px solid transparent;
@@ -449,6 +449,7 @@
       flex-direction: column;
       transition: background 0.15s, border 0.15s, transform 0.07s;
       font-size: 0.95rem;
+      /* ✅ no overflow hidden: show all tasks */
     }
     .cell.empty {
       background: transparent;
@@ -478,6 +479,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2px;
+      flex-shrink: 0;
     }
     .cell-date {
       font-weight: 600;
@@ -485,7 +487,7 @@
       color: #1f3354;
     }
 
-    /* 🟡 Today: full yellow pill, not white inside */
+    /* 🟡 Today: full yellow pill */
     .today-date {
       border-radius: 999px;
       padding: 3px 10px;
@@ -502,6 +504,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      flex-shrink: 0;
     }
 
     .tasks-mini {
@@ -510,6 +513,7 @@
       flex-direction: column;
       gap: 4px;
       font-size: 0.9rem;
+      /* ✅ let it grow with cell */
     }
     .task-chip {
       display: flex;
@@ -542,21 +546,23 @@
       word-break: break-word;
     }
 
-    /* ⬅ Back button: 더 부드럽고 덜 튀게 */
-    #backToListBtn {
-      background: #e9f0ff;
-      border-color: #d2def5;
-      padding: 6px 14px;
-      box-shadow: none;
-      font-size: 0.9rem;
-    }
-    #backToListBtn span:first-child {
-      font-size: 1rem;
-      margin-right: 4px;
-    }
-    #backToListBtn span:last-child {
-      font-size: 0.9rem;
-    }
+    /* ⬅ Back button: blend in more */
+#backToListBtn {
+  background: #e9f0ff;
+  border-color: #d2def5;
+  padding: 6px 14px;
+  box-shadow: none;
+  font-size: 0.95rem;
+  font-weight: 700;        /* 🔥 make arrow + List bold */
+  color: #1f3354;
+}
+#backToListBtn span:first-child {
+  font-size: 1.1rem;       /* arrow a bit larger */
+  margin-right: 4px;
+}
+#backToListBtn span:last-child {
+  font-size: 0.95rem;      /* List slightly bigger too */
+}
 
     @media (max-width: 768px) {
       .app {
@@ -581,9 +587,6 @@
       .task-input {
         font-size: 1.05rem;
       }
-      .cell {
-        min-height: 76px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -595,9 +598,6 @@
       }
       .panel {
         padding: 14px 10px;
-      }
-      .cell {
-        min-height: 70px;
       }
       .holiday-row {
         font-size: 0.75rem;
@@ -616,7 +616,6 @@
       </div>
       <div class="header-right">
         <div id="userBadge" class="user-badge user-badge-hidden"></div>
-        <!-- 🗓️ emoji button -->
         <button class="icon-btn hidden" id="calendarViewBtn">
           <span>🗓️</span>
         </button>
@@ -634,7 +633,7 @@
             <div class="user-name">재현</div>
           </button>
           <button class="user-card" data-user-id="jjack">
-            <div class="user-emoji">🧑🏿</div>
+            <div class="user-emoji">🧑🏾</div>
             <div class="user-name">짹짹이</div>
           </button>
           <button class="user-card" data-user-id="baam">
@@ -664,9 +663,7 @@
 
         <table>
           <thead>
-            <tr>
-              <th></th>
-            </tr>
+            <tr><th></th></tr>
           </thead>
           <tbody id="taskBody"></tbody>
         </table>
@@ -716,8 +713,8 @@
 
     const USERS = {
       jaehyun: { label: "재현", emoji: "🍍", location: "seoul" },
-      jjack: { label: "짹짹이", emoji: "🧑🏿", location: "seoul" },
-      baam: { label: "Baam", emoji: "👨🏻‍🦱", location: "newjersey" },
+      jjack:   { label: "짹짹이", emoji: "🧑🏾", location: "seoul" },
+      baam:    { label: "Baam",  emoji: "👨🏻‍🦱", location: "newjersey" },
     };
 
     const LOCATIONS = {

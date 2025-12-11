@@ -12,6 +12,9 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
     }
+    html, body {
+      height: 100%;
+    }
     body {
       margin: 0;
       padding: 0;
@@ -40,11 +43,14 @@
     .app {
       width: 100%;
       max-width: 1100px;
-      margin: 24px 12px;
+      margin: 16px 8px;
       background: #ffffffee;
       border-radius: 20px;
-      padding: 20px 18px 18px;
+      padding: 16px 14px 14px;
       box-shadow: 0 16px 32px rgba(80, 112, 180, 0.18);
+      display: flex;
+      flex-direction: column;
+      max-height: 96vh;
     }
     header {
       display: flex;
@@ -52,7 +58,7 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
     header h1 {
       margin: 0;
@@ -69,8 +75,8 @@
       border-radius: 999px;
       border: 1px solid #c6d9ff;
       background: #e1ecff;
-      padding: 9px 18px;
-      font-size: 1rem;
+      padding: 8px 16px;
+      font-size: 0.95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -78,7 +84,7 @@
       color: #33456f;
     }
     .icon-btn span {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     .icon-btn:active {
       transform: translateY(1px);
@@ -87,10 +93,10 @@
 
     .user-badge {
       border-radius: 999px;
-      padding: 6px 14px;
+      padding: 6px 12px;
       background: #ecf3ff;
       border: 1px solid #c6d9ff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #2d4166;
       cursor: pointer;
     }
@@ -100,26 +106,31 @@
 
     .view {
       display: none;
+      flex: 1;
+      overflow: hidden;
     }
     .view.active {
       display: block;
     }
 
-    /* LOGIN VIEW */
     .panel {
       border-radius: 18px;
       padding: 14px 12px;
+      height: 100%;
+      overflow: auto;
     }
+
+    /* LOGIN VIEW */
     .panel-login {
       background: #f7fbff;
       border: 1px solid #c9def7;
       text-align: center;
-      padding: 24px 16px 26px;
+      padding: 18px 12px 20px;
     }
     .login-title {
       font-size: 1.6rem;
       color: #244064;
-      margin: 4px 0 4px;
+      margin: 4px 0 10px;
     }
     .login-sub {
       font-size: 1rem;
@@ -128,7 +139,7 @@
     }
     .user-grid {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -136,15 +147,15 @@
       border-radius: 16px;
       border: 1px solid #c9def7;
       background: #ecf3ff;
-      padding: 14px 18px;
-      min-width: 120px;
+      padding: 12px 14px;
+      min-width: 110px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       align-items: center;
       transition: transform 0.08s, box-shadow 0.12s, background 0.12s;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #223a64;
     }
     .user-card:hover {
@@ -157,10 +168,10 @@
       box-shadow: 0 3px 7px rgba(80, 112, 180, 0.18);
     }
     .user-emoji {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
     }
     .user-name {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
     }
 
     /* LIST VIEW */
@@ -182,38 +193,38 @@
     }
     .weather-box {
       border-radius: 999px;
-      padding: 6px 14px;
+      padding: 6px 12px;
       background: #e4f0ff;
       border: 1px solid #c6d9ff;
-      font-size: 0.98rem;
+      font-size: 0.9rem;
       color: #2d4166;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      min-width: 80px;
+      min-width: 70px;
       justify-content: center;
     }
 
     .tasks-subtitle {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       color: #64779e;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .date-box {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 0.98rem;
+      gap: 10px;
+      font-size: 0.95rem;
       color: #55658a;
       flex-wrap: wrap;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .date-box input[type="date"] {
       border-radius: 999px;
       border: 1px solid #c9def7;
-      padding: 7px 14px;
-      font-size: 1rem;
+      padding: 6px 12px;
+      font-size: 0.95rem;
       background: #f5f9ff;
       color: #244064;
     }
@@ -230,21 +241,22 @@
     }
     th,
     td {
-      padding: 10px 7px;
+      padding: 8px 6px;
       border-bottom: 1px solid #dbe7ff;
+      vertical-align: middle;
     }
     th {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #6c7da6;
       text-align: left;
     }
 
     .task-input {
       width: 100%;
-      padding: 12px 10px;
+      padding: 10px 8px;
       border-radius: 12px;
       border: 1px solid #c9def7;
-      font-size: 1.18rem;
+      font-size: 1.1rem;
       background: #f5f9ff;
     }
     .task-input::placeholder {
@@ -259,7 +271,7 @@
 
     .status-box {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       justify-content: center;
     }
@@ -267,12 +279,12 @@
       display: none;
     }
     .status-btn {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -300,15 +312,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 12px;
+      margin-top: 10px;
       gap: 8px;
       flex-wrap: wrap;
     }
     .actions-row button.primary {
       border-radius: 999px;
       border: none;
-      padding: 10px 22px;
-      font-size: 1rem;
+      padding: 9px 20px;
+      font-size: 0.95rem;
       cursor: pointer;
       background: linear-gradient(135deg, #4c6fff, #64a6ff);
       color: white;
@@ -322,15 +334,15 @@
     .actions-row button.secondary {
       border-radius: 999px;
       border: 1px solid #c6d9ff;
-      padding: 9px 20px;
-      font-size: 0.95rem;
+      padding: 8px 18px;
+      font-size: 0.9rem;
       cursor: pointer;
       background: #ecf3ff;
       color: #344672;
     }
     .msg {
-      margin-top: 4px;
-      font-size: 0.95rem;
+      margin-top: 2px;
+      font-size: 0.9rem;
       min-height: 1.1em;
       color: #5c6c91;
     }
@@ -350,7 +362,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       gap: 8px;
     }
     .calendar-header-left {
@@ -360,18 +372,18 @@
     }
     .calendar-header h2 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: #244064;
     }
     .calendar-nav {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
     .calendar-nav button {
       border-radius: 999px;
       border: none;
-      padding: 6px 13px;
-      font-size: 0.98rem;
+      padding: 5px 11px;
+      font-size: 0.9rem;
       cursor: pointer;
       background: #d4e1ff;
       color: #244064;
@@ -382,28 +394,27 @@
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      font-size: 1rem;
+      gap: 4px;
+      font-size: 0.95rem;
     }
     .weekday {
       text-align: center;
       font-weight: 600;
       color: #5c6c91;
-      padding: 5px 0;
-      font-size: 1rem;
+      padding: 4px 0;
+      font-size: 0.9rem;
     }
     .cell {
-      border-radius: 12px;
-      padding: 7px 7px;
-      min-height: 96px;
+      border-radius: 10px;
+      padding: 6px 5px;
+      min-height: 84px;
       cursor: pointer;
       background: #eaf1ff;
       border: 1px solid transparent;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       transition: background 0.15s, border 0.15s, transform 0.07s;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
     }
     .cell.empty {
       background: transparent;
@@ -432,51 +443,50 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .cell-date {
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #1f3354;
     }
     .today-date {
       border-radius: 999px;
-      padding: 4px 12px;
+      padding: 3px 10px;
       border: 3px solid #f3c34f;
       background: #fffdf3;
       font-weight: 700;
     }
 
     .holiday-row {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: #b4466b;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .tasks-mini {
-      margin-top: 4px;
+      margin-top: 2px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 1.05rem;
+      gap: 4px;
+      font-size: 0.9rem;
     }
     .task-chip {
       display: flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
+      align-items: flex-start;
+      gap: 4px;
+      white-space: normal;          /* ✅ allow wrapping */
       overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 2px 0;
     }
     .chip-dot {
-      width: 9px;
-      height: 9px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       flex-shrink: 0;
+      margin-top: 3px;
     }
     .chip-dot.done {
       background: #38c172;
@@ -489,7 +499,80 @@
     }
     .chip-label {
       opacity: 0.95;
-      font-size: 1.02rem;
+      font-size: 0.88rem;
+      line-height: 1.2;
+      white-space: normal;          /* ✅ wrap text */
+      word-break: break-word;       /* ✅ break long words */
+    }
+
+    /* 📱 Responsive tweaks */
+    @media (max-width: 768px) {
+      .app {
+        margin: 8px 4px;
+        padding: 12px 10px;
+      }
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .login-title {
+        font-size: 1.4rem;
+      }
+      .user-emoji {
+        font-size: 1.5rem;
+      }
+      .user-name {
+        font-size: 1rem;
+      }
+      .tasks-header h2 {
+        font-size: 1.15rem;
+      }
+      .task-input {
+        font-size: 1rem;
+        padding: 8px 7px;
+      }
+      .status-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+      }
+      .calendar-grid {
+        gap: 3px;
+      }
+      .cell {
+        min-height: 76px;
+        padding: 5px 4px;
+      }
+      .cell-date {
+        font-size: 0.9rem;
+      }
+      .chip-label {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.3rem;
+      }
+      .icon-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+      .tasks-header h2 {
+        font-size: 1.05rem;
+      }
+      .task-input {
+        font-size: 0.95rem;
+      }
+      .panel {
+        padding: 10px 8px;
+      }
+      .cell {
+        min-height: 70px;
+      }
+      .holiday-row {
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
@@ -547,7 +630,7 @@
           <thead>
             <tr>
               <th></th>
-              <th style="width:140px;"></th>
+              <th style="width:130px;"></th>
             </tr>
           </thead>
           <tbody id="taskBody"></tbody>
@@ -619,7 +702,6 @@
     const prevMonthBtn = document.getElementById("prevMonth");
     const nextMonthBtn = document.getElementById("nextMonth");
 
-    // Fixed-date holidays (KR + US)
     const HOLIDAYS = {
       "01-01": ["🇰🇷 새해", "🇺🇸 New Year's Day"],
       "03-01": ["🇰🇷 삼일절"],
@@ -696,7 +778,7 @@
             timeZone: "Asia/Seoul",
           }).format(now)
         );
-        return kstHour >= 19 || kstHour <= 2; // 7pm~2am KST
+        return kstHour >= 19 || kstHour <= 2;
       } catch {
         const h = new Date().getHours();
         return h >= 19 || h <= 2;
@@ -1079,7 +1161,6 @@
       }
     }
 
-    // Weather from Open-Meteo (Seoul)
     function weatherEmoji(code, isDay) {
       if (code === 0) return isDay ? "☀️" : "🌙";
       if (code === 1 || code === 2) return "🌤️";
@@ -1112,7 +1193,6 @@
       }
     }
 
-    // View switching
     calendarViewBtn.addEventListener("click", () => {
       showCalendarViewSafe();
     });
@@ -1120,7 +1200,6 @@
       showListView();
     });
 
-    // User badge click -> switch user
     userBadge.addEventListener("click", () => {
       if (!currentUserId) return;
       if (confirm("다른 이름으로 바꿀까요?")) {
@@ -1131,7 +1210,6 @@
       }
     });
 
-    // Login user cards
     document.querySelectorAll(".user-card").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const userId = btn.dataset.userId;
@@ -1147,7 +1225,6 @@
       });
     });
 
-    // List view events
     dateInput.addEventListener("change", () => {
       if (!dateInput.value) return;
       selectedDate = dateInput.value;
@@ -1170,7 +1247,6 @@
       }
     });
 
-    // Calendar nav
     prevMonthBtn.addEventListener("click", () => {
       currentMonth--;
       if (currentMonth < 0) {

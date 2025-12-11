@@ -100,7 +100,6 @@
       box-shadow: 0 2px 6px rgba(80, 112, 180, 0.3);
     }
 
-    /* 🔵 Header round emojis: same size for user + calendar */
     .user-badge,
     #calendarViewBtn {
       width: 44px;
@@ -125,7 +124,6 @@
       display: none;
     }
 
-    /* 📅 calendar emoji size */
     #calendarViewBtn span {
       font-size: 2rem;
     }
@@ -370,7 +368,7 @@
       font-size: 0.85rem;
       padding: 4px 10px;
       border-radius: 999px;
-      background: #f4e8ff;   /* light pastel purple */
+      background: #f4e8ff;
       border: 1px solid #d2b7ff;
       color: #5b3c9c;
       font-weight: 700;
@@ -438,6 +436,7 @@
       flex-direction: column;
       transition: background 0.15s, border 0.15s, transform 0.07s;
       font-size: 0.95rem;
+      align-items: flex-start;
     }
     .cell.empty {
       background: transparent;
@@ -453,6 +452,8 @@
       box-shadow: 0 0 0 1px #4c6fff;
       transform: translateY(-1px);
     }
+
+    /* desktop done/missed day bg */
     .cell.done-day {
       background: #d8f6e6;
       border-color: #34c75980;
@@ -467,7 +468,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2px;
-      flex-shrink: 0;
+      width: 100%;
     }
     .cell-date {
       font-weight: 600;
@@ -475,7 +476,6 @@
       color: #1f3354;
     }
 
-    /* 🟡 Today: full yellow pill */
     .today-date {
       border-radius: 999px;
       padding: 3px 10px;
@@ -495,12 +495,27 @@
       flex-shrink: 0;
     }
 
+    /* single day-status dot in cell (mobile) */
+    .day-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 4px;
+    }
+    .day-status-dot.done {
+      background: #38c172;   /* green */
+    }
+    .day-status-dot.missed {
+      background: #ffd54b;   /* yellow */
+    }
+
+    /* desktop mini task list in calendar cells */
     .tasks-mini {
       margin-top: 2px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 0.9rem;
+      gap: 3px;
+      font-size: 0.88rem;
     }
     .task-chip {
       display: flex;
@@ -527,13 +542,12 @@
     }
     .chip-label {
       opacity: 0.95;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       line-height: 1.2;
       white-space: normal;
       word-break: break-word;
     }
 
-    /* ⬅ Back button: blend in more */
     #backToListBtn {
       background: #e9f0ff;
       border-color: #d2def5;
@@ -551,94 +565,66 @@
       font-size: 0.95rem;
     }
 
-    /* WEEK VIEW */
-    .panel-week {
+    /* MOBILE DAY + WEEK BELOW CALENDAR (only on mobile) */
+    .mobile-day,
+    .mobile-week {
+      margin-top: 12px;
+      border-radius: 14px;
       background: #f7fbff;
-      border: 1px solid #c9def7;
+      border: 1px solid #d2def5;
+      padding: 10px 12px;
     }
-    .week-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-    .week-header-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .week-header h2 {
-      margin: 0;
-      font-size: 1.3rem;
-      color: #244064;
-    }
-    #backToCalendarBtn {
-      background: #e9f0ff;
-      border-color: #d2def5;
-      padding: 6px 14px;
-      box-shadow: none;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #1f3354;
-    }
-    #backToCalendarBtn span:first-child {
-      font-size: 1.1rem;
-      margin-right: 4px;
-    }
-
-    .week-list {
+    .mobile-day-header,
+    .mobile-week-header {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 2px;
+      margin-bottom: 6px;
     }
-    .week-day {
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #f0f5ff;
-      border: 1px solid #d2def5;
-    }
-    .week-day-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-      font-size: 0.95rem;
+    .mobile-day-title,
+    .mobile-week-title {
+      font-size: 1rem;
+      font-weight: 700;
       color: #223a64;
     }
-    .week-day-title {
-      font-weight: 700;
+    .mobile-day-subtitle,
+    .mobile-week-subtitle {
+      font-size: 0.9rem;
+      color: #6c7da6;
     }
-    .week-day-today-badge {
-      border-radius: 999px;
-      padding: 2px 8px;
-      background: #f3c34f;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #1f3354;
-    }
-    .week-day-tasks {
+    .mobile-day-tasks,
+    .mobile-week-list {
       display: flex;
       flex-direction: column;
       gap: 4px;
       font-size: 0.9rem;
     }
-    .week-task-row {
+    .mobile-task-row,
+    .mobile-week-task-row {
       display: flex;
       gap: 6px;
       align-items: flex-start;
     }
-    .week-task-status {
+    .mobile-task-status,
+    .mobile-week-task-status {
       flex-shrink: 0;
     }
-    .week-task-title {
+    .mobile-task-title,
+    .mobile-week-task-title {
       flex: 1;
       word-break: break-word;
     }
-    .week-day-empty {
+    .mobile-day-empty,
+    .mobile-week-empty {
       font-size: 0.85rem;
       color: #8c9bbd;
+    }
+
+    @media (min-width: 769px) {
+      .mobile-day,
+      .mobile-week {
+        display: none !important;
+      }
     }
 
     @media (max-width: 768px) {
@@ -664,8 +650,14 @@
       .task-input {
         font-size: 1.05rem;
       }
-      .week-header h2 {
-        font-size: 1.1rem;
+      /* 📱 Mobile: let holiday names wrap instead of stretching width */
+      .holiday-row {
+        font-size: 0.75rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        word-break: keep-all;
+        display: block;
       }
     }
 
@@ -678,12 +670,6 @@
       }
       .panel {
         padding: 14px 10px;
-      }
-      .holiday-row {
-        font-size: 0.75rem;
-      }
-      .chip-label {
-        font-size: 0.8rem;
       }
     }
   </style>
@@ -720,7 +706,6 @@
             <div class="user-emoji">👨🏻‍🦱</div>
             <div class="user-name">Baam</div>
           </button>
-          <!-- Sara -->
           <button class="user-card" data-user-id="sara">
             <div class="user-emoji">☁️</div>
             <div class="user-name">Sara</div>
@@ -729,7 +714,7 @@
       </section>
     </div>
 
-    <!-- LIST VIEW (DAY) -->
+    <!-- LIST VIEW -->
     <div id="listView" class="view">
       <section class="panel panel-tasks">
         <div class="tasks-header">
@@ -756,7 +741,6 @@
             <div id="msg" class="msg"></div>
           </div>
           <div class="actions-row-right">
-            <!-- ⭐ Hint now on the LEFT of the Complete button -->
             <span id="checkHint" class="check-hint hidden">
               🟢 = done · 🟡 = not done
             </span>
@@ -783,21 +767,24 @@
         </div>
 
         <div class="calendar-grid" id="calendarGrid"></div>
-      </section>
-    </div>
 
-    <!-- WEEK VIEW (for mobile) -->
-    <div id="weekView" class="view">
-      <section class="panel panel-week">
-        <div class="week-header">
-          <div class="week-header-left">
-            <button class="icon-btn" id="backToCalendarBtn">
-              <span>←</span><span>Calendar</span>
-            </button>
-            <h2 id="weekLabel"></h2>
+        <!-- Mobile: Day detail below calendar -->
+        <div id="mobileDayContainer" class="mobile-day hidden">
+          <div class="mobile-day-header">
+            <div id="mobileDayTitle" class="mobile-day-title"></div>
+            <div id="mobileDaySubtitle" class="mobile-day-subtitle"></div>
           </div>
+          <div id="mobileDayTasks" class="mobile-day-tasks"></div>
         </div>
-        <div id="weekListContainer" class="week-list"></div>
+
+        <!-- Mobile: Week detail below calendar (long press) -->
+        <div id="mobileWeekContainer" class="mobile-week hidden">
+          <div class="mobile-week-header">
+            <div id="mobileWeekTitle" class="mobile-week-title"></div>
+            <div id="mobileWeekSubtitle" class="mobile-week-subtitle"></div>
+          </div>
+          <div id="mobileWeekList" class="mobile-week-list"></div>
+        </div>
       </section>
     </div>
   </div>
@@ -808,7 +795,7 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwaW9iZWFsdnltcHhieXBmbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNzYxNDIsImV4cCI6MjA3ODk1MjE0Mn0.mLvGyy-eMWr-ow2b2USMg7PXKq2EUfK1fyJEsdGThKw";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const MAX_TASKS = 3; // 3 things a day
+    const MAX_TASKS = 3;
     const STORAGE_KEY_USER = "three_things_user";
 
     const USERS = {
@@ -842,11 +829,9 @@
     const loginView = document.getElementById("loginView");
     const listView = document.getElementById("listView");
     const calendarView = document.getElementById("calendarView");
-    const weekView = document.getElementById("weekView");
 
     const calendarViewBtn = document.getElementById("calendarViewBtn");
     const backToListBtn = document.getElementById("backToListBtn");
-    const backToCalendarBtn = document.getElementById("backToCalendarBtn");
     const userBadge = document.getElementById("userBadge");
 
     const taskBody = document.getElementById("taskBody");
@@ -862,11 +847,18 @@
     const prevMonthBtn = document.getElementById("prevMonth");
     const nextMonthBtn = document.getElementById("nextMonth");
 
-    const weekLabel = document.getElementById("weekLabel");
-    const weekListContainer = document.getElementById("weekListContainer");
-
     const dayLabel = document.getElementById("dayLabel");
     const dayTitleEl = document.getElementById("dayTitle");
+
+    const mobileDayContainer = document.getElementById("mobileDayContainer");
+    const mobileDayTitle = document.getElementById("mobileDayTitle");
+    const mobileDaySubtitle = document.getElementById("mobileDaySubtitle");
+    const mobileDayTasks = document.getElementById("mobileDayTasks");
+
+    const mobileWeekContainer = document.getElementById("mobileWeekContainer");
+    const mobileWeekTitle = document.getElementById("mobileWeekTitle");
+    const mobileWeekSubtitle = document.getElementById("mobileWeekSubtitle");
+    const mobileWeekList = document.getElementById("mobileWeekList");
 
     const HOLIDAYS = {
       "01-01": ["🇰🇷 새해", "🇺🇸 New Year's Day"],
@@ -896,6 +888,9 @@
     let currentUserId = null;
     let checkingMode = false;
 
+    let longPressTimer = null;
+    let longPressTriggered = false;
+
     function isMobile() {
       return window.innerWidth <= 768;
     }
@@ -916,13 +911,11 @@
       loginView.classList.add("active");
       listView.classList.remove("active");
       calendarView.classList.remove("active");
-      weekView.classList.remove("active");
     }
     function showListView() {
       loginView.classList.remove("active");
       listView.classList.add("active");
       calendarView.classList.remove("active");
-      weekView.classList.remove("active");
     }
     function showCalendarViewSafe() {
       if (!currentUserId) {
@@ -932,17 +925,6 @@
       loginView.classList.remove("active");
       listView.classList.remove("active");
       calendarView.classList.add("active");
-      weekView.classList.remove("active");
-    }
-    function showWeekView() {
-      if (!currentUserId) {
-        showLoginView();
-        return;
-      }
-      loginView.classList.remove("active");
-      listView.classList.remove("active");
-      calendarView.classList.remove("active");
-      weekView.classList.add("active");
     }
 
     function toLocalISO(d) {
@@ -973,7 +955,6 @@
         row.classList.toggle("check-mode", active);
       });
 
-      // 🔒 Make inputs read-only in Check/Complete mode
       document.querySelectorAll(".task-input").forEach((input) => {
         input.readOnly = active;
       });
@@ -1222,6 +1203,242 @@
       monthSummary = summary;
     }
 
+    function getWeekRange(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      const day = d.getDay();
+      const start = new Date(d);
+      start.setDate(d.getDate() - day);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      return {
+        startDate: toLocalISO(start),
+        endDate: toLocalISO(end),
+      };
+    }
+
+    function getWeekNumberInMonth(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      return Math.floor((d.getDate() - 1) / 7) + 1;
+    }
+
+    function formatDateLabel(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return `${weekdayNames[d.getDay()]}, ${months[d.getMonth()]} ${String(
+        d.getDate()
+      ).padStart(2,"0")}`;
+    }
+
+    function renderMobileDay(dateStr) {
+      if (!isMobile() || !mobileDayContainer) return;
+
+      const label = formatDateLabel(dateStr);
+      mobileDayTitle.textContent = `Tasks for ${label}`;
+      const info = monthSummary[dateStr];
+      const count = info ? info.tasks.length : 0;
+      mobileDaySubtitle.textContent =
+        count > 0 ? `${count} thing(s)` : "No tasks yet. Tap the date and edit in List page.";
+
+      mobileDayTasks.innerHTML = "";
+      if (!info || info.tasks.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "mobile-day-empty";
+        empty.textContent = "No tasks saved yet. ✏️";
+        mobileDayTasks.appendChild(empty);
+      } else {
+        info.tasks
+          .sort((a, b) => a.idx - b.idx)
+          .forEach((t) => {
+            const row = document.createElement("div");
+            row.className = "mobile-task-row";
+
+            const statusSpan = document.createElement("span");
+            statusSpan.className = "mobile-task-status";
+            if (t.status === "done") statusSpan.textContent = "🟢";
+            else if (t.status === "missed") statusSpan.textContent = "🟡";
+            else statusSpan.textContent = "⚪";
+
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "mobile-task-title";
+            titleSpan.textContent = `${t.idx}. ${t.title}`;
+
+            row.appendChild(statusSpan);
+            row.appendChild(titleSpan);
+            mobileDayTasks.appendChild(row);
+          });
+      }
+
+      mobileDayContainer.classList.remove("hidden");
+      mobileDayContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function showWeekForDateMobile(dateStr) {
+      if (!currentUserId || !isMobile()) return;
+
+      const { startDate, endDate } = getWeekRange(dateStr);
+      const weekNum = getWeekNumberInMonth(dateStr);
+      mobileWeekTitle.textContent = `Week ${weekNum}`;
+      mobileWeekSubtitle.textContent = `${startDate} ~ ${endDate}`;
+
+      mobileWeekList.innerHTML = "";
+
+      const { data, error } = await supabaseClient
+        .from("daily_tasks")
+        .select("task_date, idx, title, status")
+        .eq("user_id", currentUserId)
+        .gte("task_date", startDate)
+        .lte("task_date", endDate)
+        .order("task_date", { ascending: true })
+        .order("idx", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        const errDiv = document.createElement("div");
+        errDiv.className = "mobile-week-empty";
+        errDiv.textContent = "Error loading week 😢";
+        mobileWeekList.appendChild(errDiv);
+      } else {
+        const grouped = {};
+        (data || []).forEach((row) => {
+          if (!grouped[row.task_date]) grouped[row.task_date] = [];
+          grouped[row.task_date].push({
+            idx: row.idx,
+            title: row.title,
+            status: row.status || "pending",
+          });
+        });
+
+        const start = new Date(startDate + "T00:00:00");
+        const todayStr = toLocalISO(new Date());
+        const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(start);
+          d.setDate(start.getDate() + i);
+          const ds = toLocalISO(d);
+
+          const dayBlock = document.createElement("div");
+          dayBlock.style.marginBottom = "6px";
+
+          const header = document.createElement("div");
+          header.style.display = "flex";
+          header.style.justifyContent = "space-between";
+          header.style.alignItems = "center";
+          header.style.marginBottom = "2px";
+          header.style.fontSize = "0.9rem";
+          header.style.color = "#223a64";
+
+          const title = document.createElement("div");
+          title.textContent = `${ds} (${weekdayNames[d.getDay()]})`;
+          header.appendChild(title);
+
+          if (ds === todayStr) {
+            const todayBadge = document.createElement("span");
+            todayBadge.style.borderRadius = "999px";
+            todayBadge.style.padding = "2px 8px";
+            todayBadge.style.background = "#f3c34f";
+            todayBadge.style.fontSize = "0.75rem";
+            todayBadge.style.fontWeight = "700";
+            todayBadge.style.color = "#1f3354";
+            todayBadge.textContent = "Today";
+            header.appendChild(todayBadge);
+          }
+
+          dayBlock.appendChild(header);
+
+          const tasksDiv = document.createElement("div");
+          tasksDiv.style.display = "flex";
+          tasksDiv.style.flexDirection = "column";
+          tasksDiv.style.gap = "2px";
+
+          const tasks = grouped[ds] || [];
+          if (tasks.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "mobile-week-empty";
+            empty.textContent = "No tasks.";
+            tasksDiv.appendChild(empty);
+          } else {
+            tasks
+              .sort((a, b) => a.idx - b.idx)
+              .forEach((t) => {
+                const row = document.createElement("div");
+                row.className = "mobile-week-task-row";
+
+                const statusSpan = document.createElement("span");
+                statusSpan.className = "mobile-week-task-status";
+                if (t.status === "done") statusSpan.textContent = "🟢";
+                else if (t.status === "missed") statusSpan.textContent = "🟡";
+                else statusSpan.textContent = "⚪";
+
+                const titleSpan = document.createElement("span");
+                titleSpan.className = "mobile-week-task-title";
+                titleSpan.textContent = `${t.idx}. ${t.title}`;
+
+                row.appendChild(statusSpan);
+                row.appendChild(titleSpan);
+                tasksDiv.appendChild(row);
+              });
+          }
+
+          dayBlock.appendChild(tasksDiv);
+          mobileWeekList.appendChild(dayBlock);
+        }
+      }
+
+      mobileWeekContainer.classList.remove("hidden");
+      mobileWeekContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function attachCellHandlers(cell, dateStr) {
+      cell.addEventListener("click", () => {
+        if (longPressTriggered) {
+          longPressTriggered = false;
+          return;
+        }
+        selectedDate = dateStr;
+        updateDayLabel();
+
+        document.querySelectorAll(".cell").forEach((c) =>
+          c.classList.remove("selected")
+        );
+        cell.classList.add("selected");
+
+        if (isMobile()) {
+          renderMobileDay(dateStr);
+          showCalendarViewSafe();
+        } else {
+          loadDay(selectedDate);
+          showListView();
+        }
+      });
+
+      const startLongPress = () => {
+        if (!isMobile()) return;
+        longPressTriggered = false;
+        if (longPressTimer) clearTimeout(longPressTimer);
+        longPressTimer = setTimeout(() => {
+          longPressTriggered = true;
+          showWeekForDateMobile(dateStr);
+        }, 600);
+      };
+
+      const cancelLongPress = () => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      };
+
+      cell.addEventListener("touchstart", startLongPress);
+      cell.addEventListener("touchend", cancelLongPress);
+      cell.addEventListener("touchmove", cancelLongPress);
+
+      cell.addEventListener("mousedown", startLongPress);
+      cell.addEventListener("mouseup", cancelLongPress);
+      cell.addEventListener("mouseleave", cancelLongPress);
+    }
+
     function renderCalendar() {
       calendarGrid.innerHTML = "";
       monthLabel.textContent = `${currentYear}-${String(
@@ -1279,65 +1496,47 @@
           });
         }
 
-        const mini = document.createElement("div");
-        mini.className = "tasks-mini";
         const info = monthSummary[dateStr];
-        let allDone = false;
-        let allMissed = false;
-
         if (info && info.tasks.length > 0) {
-          allDone = info.tasks.every((t) => t.status === "done");
-          allMissed = info.tasks.every((t) => t.status === "missed");
-
-          info.tasks
-            .sort((a, b) => a.idx - b.idx)
-            .slice(0, 5)
-            .forEach((t) => {
-              const chip = document.createElement("div");
-              chip.className = "task-chip";
-              const dot = document.createElement("span");
-              dot.className =
-                "chip-dot " +
-                (t.status === "done"
-                  ? "done"
-                  : t.status === "missed"
-                  ? "missed"
-                  : "pending");
-              const text = document.createElement("span");
-              text.className = "chip-label";
-              text.textContent = t.title;
-              chip.appendChild(dot);
-              chip.appendChild(text);
-              mini.appendChild(chip);
-            });
-        }
-        cell.appendChild(mini);
-
-        if (info && info.tasks.length > 0) {
-          if (allDone) {
-            cell.classList.add("done-day");
-          } else if (allMissed) {
-            cell.classList.add("missed-day");
-          }
-        }
-
-        cell.addEventListener("click", () => {
-          selectedDate = dateStr;
-          updateDayLabel();
-
-          document.querySelectorAll(".cell").forEach((c) =>
-            c.classList.remove("selected")
-          );
-          cell.classList.add("selected");
+          const allDone = info.tasks.every((t) => t.status === "done");
+          const allMissed = info.tasks.every((t) => t.status === "missed");
 
           if (isMobile()) {
-            showWeekForDate(selectedDate);
+            const dot = document.createElement("div");
+            dot.className = "day-status-dot " + (allDone ? "done" : "missed");
+            cell.appendChild(dot);
           } else {
-            loadDay(selectedDate);
-            showListView();
-          }
-        });
+            if (allDone) cell.classList.add("done-day");
+            else if (allMissed) cell.classList.add("missed-day");
 
+            const mini = document.createElement("div");
+            mini.className = "tasks-mini";
+            info.tasks
+              .sort((a, b) => a.idx - b.idx)
+              .slice(0, 5)
+              .forEach((t) => {
+                const chip = document.createElement("div");
+                chip.className = "task-chip";
+                const dot = document.createElement("span");
+                dot.className =
+                  "chip-dot " +
+                  (t.status === "done"
+                    ? "done"
+                    : t.status === "missed"
+                    ? "missed"
+                    : "pending");
+                const text = document.createElement("span");
+                text.className = "chip-label";
+                text.textContent = t.title;
+                chip.appendChild(dot);
+                chip.appendChild(text);
+                mini.appendChild(chip);
+              });
+            cell.appendChild(mini);
+          }
+        }
+
+        attachCellHandlers(cell, dateStr);
         calendarGrid.appendChild(cell);
       }
     }
@@ -1381,130 +1580,11 @@
       }
     }
 
-    // WEEK VIEW HELPERS
-    function getWeekRange(dateStr) {
-      const d = new Date(dateStr + "T00:00:00");
-      const day = d.getDay(); // 0 (Sun) - 6 (Sat)
-      const start = new Date(d);
-      start.setDate(d.getDate() - day); // Sunday
-      const end = new Date(start);
-      end.setDate(start.getDate() + 6); // Saturday
-      return {
-        startDate: toLocalISO(start),
-        endDate: toLocalISO(end),
-      };
-    }
-
-    function formatWeekLabel(startDate, endDate) {
-      return `${startDate} ~ ${endDate}`;
-    }
-
-    async function showWeekForDate(dateStr) {
-      if (!currentUserId) return;
-      const { startDate, endDate } = getWeekRange(dateStr);
-      weekLabel.textContent = formatWeekLabel(startDate, endDate);
-      weekListContainer.innerHTML = "";
-
-      const { data, error } = await supabaseClient
-        .from("daily_tasks")
-        .select("task_date, idx, title, status")
-        .eq("user_id", currentUserId)
-        .gte("task_date", startDate)
-        .lte("task_date", endDate)
-        .order("task_date", { ascending: true })
-        .order("idx", { ascending: true });
-
-      if (error) {
-        console.error(error);
-        weekListContainer.textContent = "Error loading week 😢";
-      } else {
-        const grouped = {};
-        (data || []).forEach((row) => {
-          if (!grouped[row.task_date]) grouped[row.task_date] = [];
-          grouped[row.task_date].push({
-            idx: row.idx,
-            title: row.title,
-            status: row.status || "pending",
-          });
-        });
-
-        const todayStr = toLocalISO(new Date());
-        const start = new Date(startDate + "T00:00:00");
-        for (let i = 0; i < 7; i++) {
-          const d = new Date(start);
-          d.setDate(start.getDate() + i);
-          const ds = toLocalISO(d);
-          const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-          const dayDiv = document.createElement("div");
-          dayDiv.className = "week-day";
-
-          const header = document.createElement("div");
-          header.className = "week-day-header";
-
-          const title = document.createElement("div");
-          title.className = "week-day-title";
-          title.textContent = `${ds} (${weekdayNames[d.getDay()]})`;
-          header.appendChild(title);
-
-          if (ds === todayStr) {
-            const todayBadge = document.createElement("div");
-            todayBadge.className = "week-day-today-badge";
-            todayBadge.textContent = "Today";
-            header.appendChild(todayBadge);
-          }
-
-          dayDiv.appendChild(header);
-
-          const tasksDiv = document.createElement("div");
-          tasksDiv.className = "week-day-tasks";
-
-          const tasks = grouped[ds] || [];
-          if (tasks.length === 0) {
-            const empty = document.createElement("div");
-            empty.className = "week-day-empty";
-            empty.textContent = "No tasks saved.";
-            tasksDiv.appendChild(empty);
-          } else {
-            tasks
-              .sort((a, b) => a.idx - b.idx)
-              .forEach((t) => {
-                const row = document.createElement("div");
-                row.className = "week-task-row";
-
-                const statusSpan = document.createElement("span");
-                statusSpan.className = "week-task-status";
-                if (t.status === "done") statusSpan.textContent = "✅";
-                else if (t.status === "missed") statusSpan.textContent = "⚠️";
-                else statusSpan.textContent = "•";
-
-                const titleSpan = document.createElement("span");
-                titleSpan.className = "week-task-title";
-                titleSpan.textContent = t.title;
-
-                row.appendChild(statusSpan);
-                row.appendChild(titleSpan);
-                tasksDiv.appendChild(row);
-              });
-          }
-
-          dayDiv.appendChild(tasksDiv);
-          weekListContainer.appendChild(dayDiv);
-        }
-      }
-
-      showWeekView();
-    }
-
-    // EVENT LISTENERS
     calendarViewBtn.addEventListener("click", () => {
       showCalendarViewSafe();
     });
     backToListBtn.addEventListener("click", () => {
       showListView();
-    });
-    backToCalendarBtn.addEventListener("click", () => {
-      showCalendarViewSafe();
     });
 
     userBadge.addEventListener("click", () => {
@@ -1520,13 +1600,13 @@
         if (!USERS[userId]) return;
         setCurrentUser(userId);
         localStorage.setItem(STORAGE_KEY_USER, userId);
-        showListView();
         selectedDate = toLocalISO(new Date());
         updateDayLabel();
         await loadMonth(currentYear, currentMonth);
         renderCalendar();
         await loadDay(selectedDate);
         loadWeather();
+        showListView();
       });
     });
 
@@ -1581,11 +1661,11 @@
       const savedUser = localStorage.getItem(STORAGE_KEY_USER);
       if (savedUser && USERS[savedUser]) {
         setCurrentUser(savedUser);
-        showListView();
         await loadMonth(currentYear, currentMonth);
         renderCalendar();
         await loadDay(selectedDate);
         loadWeather();
+        showListView();
       } else {
         setCurrentUser(null);
         showLoginView();
@@ -1596,4 +1676,3 @@
   </script>
 </body>
 </html>
-

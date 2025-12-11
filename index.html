@@ -5,11 +5,17 @@
   <title>3 Things a Day</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Google Font: Noto Sans KR -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+  />
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * {
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
     }
     html, body {
@@ -43,26 +49,27 @@
     .app {
       width: 100%;
       max-width: 1100px;
-      margin: 16px 8px;
+      margin: 24px 10px;
       background: #ffffffee;
       border-radius: 20px;
-      padding: 16px 14px 14px;
+      padding: 18px 16px 18px;
       box-shadow: 0 16px 32px rgba(80, 112, 180, 0.18);
-      display: flex;
-      flex-direction: column;
-      max-height: 96vh;
     }
+    .hidden {
+      display: none !important;
+    }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
     header h1 {
       margin: 0;
-      font-size: 1.9rem;
+      font-size: 2.3rem;
       letter-spacing: 0.03em;
       color: #223a64;
     }
@@ -71,43 +78,60 @@
       gap: 8px;
       align-items: center;
     }
+
     .icon-btn {
       border-radius: 999px;
       border: 1px solid #c6d9ff;
       background: #e1ecff;
-      padding: 8px 16px;
+      padding: 4px 8px;
       font-size: 0.95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
       color: #33456f;
     }
     .icon-btn span {
-      font-size: 1.1rem;
+      font-size: 1.8rem;
+      line-height: 1;
     }
     .icon-btn:active {
       transform: translateY(1px);
       box-shadow: 0 2px 6px rgba(80, 112, 180, 0.3);
     }
 
+    /* 🔵 Header round emojis: same size for user + calendar */
+    .user-badge,
+    #calendarViewBtn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
     .user-badge {
-      border-radius: 999px;
-      padding: 6px 12px;
       background: #ecf3ff;
       border: 1px solid #c6d9ff;
-      font-size: 0.85rem;
+      font-size: 2rem;
       color: #2d4166;
       cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
     }
     .user-badge-hidden {
       display: none;
     }
 
+    /* 📅 calendar emoji size */
+    #calendarViewBtn span {
+      font-size: 2rem;
+    }
+
     .view {
       display: none;
-      flex: 1;
-      overflow: hidden;
     }
     .view.active {
       display: block;
@@ -115,9 +139,7 @@
 
     .panel {
       border-radius: 18px;
-      padding: 14px 12px;
-      height: 100%;
-      overflow: auto;
+      padding: 18px 16px;
     }
 
     /* LOGIN VIEW */
@@ -125,37 +147,38 @@
       background: #f7fbff;
       border: 1px solid #c9def7;
       text-align: center;
-      padding: 18px 12px 20px;
+      padding: 40px 24px 34px;
     }
     .login-title {
-      font-size: 1.6rem;
+      font-size: 1.9rem;
       color: #244064;
-      margin: 4px 0 10px;
+      margin: 0 0 18px;
     }
     .login-sub {
       font-size: 1rem;
       color: #66789e;
-      margin-bottom: 18px;
+      margin-bottom: 26px;
     }
     .user-grid {
       display: flex;
-      gap: 10px;
+      gap: 18px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-top: 10px;
     }
     .user-card {
-      border-radius: 16px;
+      border-radius: 18px;
       border: 1px solid #c9def7;
       background: #ecf3ff;
-      padding: 12px 14px;
-      min-width: 110px;
+      padding: 18px 22px;
+      min-width: 150px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
       align-items: center;
       transition: transform 0.08s, box-shadow 0.12s, background 0.12s;
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #223a64;
     }
     .user-card:hover {
@@ -168,10 +191,10 @@
       box-shadow: 0 3px 7px rgba(80, 112, 180, 0.18);
     }
     .user-emoji {
-      font-size: 1.7rem;
+      font-size: 2.6rem;
     }
     .user-name {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
     }
 
     /* LIST VIEW */
@@ -182,14 +205,25 @@
     .tasks-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
       margin-bottom: 4px;
     }
-    .tasks-header h2 {
+    .tasks-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tasks-header-left h2 {
       margin: 0;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: #244064;
+    }
+    .tasks-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
     }
     .weather-box {
       border-radius: 999px;
@@ -201,24 +235,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      min-width: 70px;
+      min-width: 80px;
       justify-content: center;
     }
 
-    .tasks-subtitle {
-      font-size: 1.02rem;
-      color: #64779e;
-      margin-bottom: 8px;
-    }
-
     .date-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       font-size: 0.95rem;
-      color: #55658a;
-      flex-wrap: wrap;
-      margin-bottom: 6px;
     }
     .date-box input[type="date"] {
       border-radius: 999px;
@@ -235,13 +257,21 @@
       background: #ffffff;
     }
 
+    .tasks-subtitle {
+      font-size: 1.05rem;
+      color: #64779e;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
     th,
     td {
-      padding: 8px 6px;
+      padding: 8px 0;
       border-bottom: 1px solid #dbe7ff;
       vertical-align: middle;
     }
@@ -251,13 +281,19 @@
       text-align: left;
     }
 
+    .task-row {
+      position: relative;
+      border-radius: 14px;
+    }
+
     .task-input {
       width: 100%;
-      padding: 10px 8px;
-      border-radius: 12px;
+      padding: 10px 10px;
+      border-radius: 14px;
       border: 1px solid #c9def7;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       background: #f5f9ff;
+      transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
     }
     .task-input::placeholder {
       color: #9aaccc;
@@ -269,52 +305,47 @@
       background: #ffffff;
     }
 
-    .status-box {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
-    }
-    .status-box.hidden {
-      display: none;
-    }
-    .status-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: none;
+    .task-row.check-mode .task-input {
+      background: linear-gradient(
+        to right,
+        #dff7e8 0,
+        #dff7e8 50%,
+        #fff5c9 50%,
+        #fff5c9 100%
+      );
       cursor: pointer;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #e0e7ff;
-      color: #546497;
-      transition: transform 0.07s, box-shadow 0.1s, background 0.1s, color 0.1s,
-        opacity 0.1s;
     }
-    .status-btn:active {
-      transform: scale(0.94);
-      box-shadow: 0 0 0 3px rgba(76, 111, 255, 0.25);
+
+    .task-row.done .task-input {
+      background: #dff7e8;
+      border-color: #34c759;
+      box-shadow: 0 0 0 2px rgba(52, 199, 89, 0.3);
     }
-    .status-btn.done-active {
-      background: #34c759;
-      color: #ffffff;
-      box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.4);
-    }
-    .status-btn.missed-active {
-      background: #ffd54b;
-      color: #7a5a00;
-      box-shadow: 0 0 0 3px rgba(255, 213, 75, 0.45);
+    .task-row.missed .task-input {
+      background: #fff5c9;
+      border-color: #ffd54b;
+      box-shadow: 0 0 0 2px rgba(255, 213, 75, 0.35);
     }
 
     .actions-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 12px;
       gap: 8px;
       flex-wrap: wrap;
+    }
+    .actions-row-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .actions-row-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: auto;
     }
     .actions-row button.primary {
       border-radius: 999px;
@@ -340,8 +371,11 @@
       background: #ecf3ff;
       color: #344672;
     }
+    .actions-row button.secondary.toggled {
+      background: #d6e4ff;
+      border-color: #8ca8ff;
+    }
     .msg {
-      margin-top: 2px;
       font-size: 0.9rem;
       min-height: 1.1em;
       color: #5c6c91;
@@ -450,11 +484,14 @@
       font-size: 1rem;
       color: #1f3354;
     }
+
+    /* 🟡 Today: full yellow pill, not white inside */
     .today-date {
       border-radius: 999px;
       padding: 3px 10px;
       border: 3px solid #f3c34f;
-      background: #fffdf3;
+      background: #f3c34f;
+      color: #1f3354;
       font-weight: 700;
     }
 
@@ -478,7 +515,7 @@
       display: flex;
       align-items: flex-start;
       gap: 4px;
-      white-space: normal;          /* ✅ allow wrapping */
+      white-space: normal;
       overflow: hidden;
     }
     .chip-dot {
@@ -501,77 +538,72 @@
       opacity: 0.95;
       font-size: 0.88rem;
       line-height: 1.2;
-      white-space: normal;          /* ✅ wrap text */
-      word-break: break-word;       /* ✅ break long words */
+      white-space: normal;
+      word-break: break-word;
     }
 
-    /* 📱 Responsive tweaks */
+    /* ⬅ Back button: 더 부드럽고 덜 튀게 */
+    #backToListBtn {
+      background: #e9f0ff;
+      border-color: #d2def5;
+      padding: 6px 14px;
+      box-shadow: none;
+      font-size: 0.9rem;
+    }
+    #backToListBtn span:first-child {
+      font-size: 1rem;
+      margin-right: 4px;
+    }
+    #backToListBtn span:last-child {
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 768px) {
       .app {
-        margin: 8px 4px;
-        padding: 12px 10px;
+        margin: 18px 6px;
+        padding: 14px 12px;
       }
       header h1 {
-        font-size: 1.5rem;
+        font-size: 1.9rem;
       }
       .login-title {
-        font-size: 1.4rem;
+        font-size: 1.7rem;
       }
       .user-emoji {
-        font-size: 1.5rem;
+        font-size: 2.6rem;
       }
       .user-name {
-        font-size: 1rem;
+        font-size: 1.05rem;
       }
-      .tasks-header h2 {
-        font-size: 1.15rem;
+      .tasks-header-left h2 {
+        font-size: 1.2rem;
       }
       .task-input {
-        font-size: 1rem;
-        padding: 8px 7px;
-      }
-      .status-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 1.15rem;
-      }
-      .calendar-grid {
-        gap: 3px;
+        font-size: 1.05rem;
       }
       .cell {
         min-height: 76px;
-        padding: 5px 4px;
-      }
-      .cell-date {
-        font-size: 0.9rem;
-      }
-      .chip-label {
-        font-size: 0.8rem;
       }
     }
 
     @media (max-width: 480px) {
       header h1 {
-        font-size: 1.3rem;
+        font-size: 1.7rem;
       }
       .icon-btn {
-        padding: 6px 10px;
-        font-size: 0.85rem;
-      }
-      .tasks-header h2 {
-        font-size: 1.05rem;
-      }
-      .task-input {
-        font-size: 0.95rem;
+        padding: 4px 6px;
       }
       .panel {
-        padding: 10px 8px;
+        padding: 14px 10px;
       }
       .cell {
         min-height: 70px;
       }
       .holiday-row {
         font-size: 0.75rem;
+      }
+      .chip-label {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -584,8 +616,9 @@
       </div>
       <div class="header-right">
         <div id="userBadge" class="user-badge user-badge-hidden"></div>
-        <button class="icon-btn" id="calendarViewBtn">
-          <span>📅</span> <span>Calendar</span>
+        <!-- 🗓️ emoji button -->
+        <button class="icon-btn hidden" id="calendarViewBtn">
+          <span>🗓️</span>
         </button>
       </div>
     </header>
@@ -616,32 +649,37 @@
     <div id="listView" class="view">
       <section class="panel panel-tasks">
         <div class="tasks-header">
-          <h2>Today</h2>
-          <div id="weatherBox" class="weather-box">⛅ --°C</div>
+          <div class="tasks-header-left">
+            <h2>Today</h2>
+            <div class="date-box">
+              <input type="date" id="dateInput" />
+            </div>
+          </div>
+          <div class="tasks-header-right">
+            <div id="weatherBox" class="weather-box">⛅ --°C</div>
+          </div>
         </div>
 
-        <div class="date-box">
-          <input type="date" id="dateInput" />
-        </div>
-
-        <div class="tasks-subtitle">Let's get em done!</div>
+        <div class="tasks-subtitle">Get em done!</div>
 
         <table>
           <thead>
             <tr>
               <th></th>
-              <th style="width:130px;"></th>
             </tr>
           </thead>
           <tbody id="taskBody"></tbody>
         </table>
 
         <div class="actions-row">
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div class="actions-row-left">
             <button class="primary" id="saveBtn">Save</button>
             <button class="secondary" id="clearBtn">Clear</button>
+            <div id="msg" class="msg"></div>
           </div>
-          <div id="msg" class="msg"></div>
+          <div class="actions-row-right">
+            <button class="secondary" id="checkModeBtn">Check</button>
+          </div>
         </div>
       </section>
     </div>
@@ -652,7 +690,7 @@
         <div class="calendar-header">
           <div class="calendar-header-left">
             <button class="icon-btn" id="backToListBtn">
-              <span>←</span> <span>List</span>
+              <span>←</span><span>List</span>
             </button>
             <h2 id="monthLabel"></h2>
           </div>
@@ -668,7 +706,6 @@
   </div>
 
   <script>
-    // Supabase
     const supabaseUrl = "https://upiobealvympxbypfmkc.supabase.co";
     const supabaseKey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwaW9iZWFsdnltcHhieXBmbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNzYxNDIsImV4cCI6MjA3ODk1MjE0Mn0.mLvGyy-eMWr-ow2b2USMg7PXKq2EUfK1fyJEsdGThKw";
@@ -678,9 +715,24 @@
     const STORAGE_KEY_USER = "three_things_user";
 
     const USERS = {
-      jaehyun: { label: "재현 🍍" },
-      jjack: { label: "짹짹이 🧑🏿" },
-      baam: { label: "Baam 👨🏻‍🦱" },
+      jaehyun: { label: "재현", emoji: "🍍", location: "seoul" },
+      jjack: { label: "짹짹이", emoji: "🧑🏿", location: "seoul" },
+      baam: { label: "Baam", emoji: "👨🏻‍🦱", location: "newjersey" },
+    };
+
+    const LOCATIONS = {
+      seoul: {
+        name: "Seoul",
+        lat: 37.5665,
+        lon: 126.978,
+        timezone: "Asia/Seoul",
+      },
+      newjersey: {
+        name: "New Jersey",
+        lat: 40.0583,
+        lon: -74.4057,
+        timezone: "America/New_York",
+      },
     };
 
     const loginView = document.getElementById("loginView");
@@ -694,6 +746,7 @@
     const dateInput = document.getElementById("dateInput");
     const saveBtn = document.getElementById("saveBtn");
     const clearBtn = document.getElementById("clearBtn");
+    const checkModeBtn = document.getElementById("checkModeBtn");
     const msgEl = document.getElementById("msg");
     const weatherBox = document.getElementById("weatherBox");
 
@@ -719,8 +772,7 @@
       const parts = dateStr.split("-");
       if (parts.length !== 3) return null;
       const key = parts[1] + "-" + parts[2];
-      const labels = HOLIDAYS[key];
-      return labels || null;
+      return HOLIDAYS[key] || null;
     }
 
     let selectedDate = toLocalISO(new Date());
@@ -729,14 +781,17 @@
     let monthSummary = {};
     const rowState = {};
     let currentUserId = null;
+    let checkingMode = false;
 
     function setCurrentUser(id) {
       currentUserId = id;
       if (id && USERS[id]) {
-        userBadge.textContent = USERS[id].label;
+        userBadge.textContent = USERS[id].emoji;
         userBadge.classList.remove("user-badge-hidden");
+        calendarViewBtn.classList.remove("hidden");
       } else {
         userBadge.classList.add("user-badge-hidden");
+        calendarViewBtn.classList.add("hidden");
       }
     }
 
@@ -752,7 +807,6 @@
     }
     function showCalendarViewSafe() {
       if (!currentUserId) {
-        alert("먼저 이름을 선택해 주세요!");
         showLoginView();
         return;
       }
@@ -768,32 +822,33 @@
       return `${y}-${m}-${day}`;
     }
 
-    function isCheckWindow() {
-      try {
-        const now = new Date();
-        const kstHour = Number(
-          new Intl.DateTimeFormat("en-US", {
-            hour: "numeric",
-            hour12: false,
-            timeZone: "Asia/Seoul",
-          }).format(now)
-        );
-        return kstHour >= 19 || kstHour <= 2;
-      } catch {
-        const h = new Date().getHours();
-        return h >= 19 || h <= 2;
+    function updateCheckUI() {
+      const active = checkingMode;
+      document.querySelectorAll(".task-row").forEach((row) => {
+        row.classList.toggle("check-mode", active);
+      });
+      if (active) {
+        checkModeBtn.classList.add("toggled");
+        checkModeBtn.textContent = "Complete";
+        setMsg("Green = done   Yellow = not done", "");
+      } else {
+        checkModeBtn.classList.remove("toggled");
+        checkModeBtn.textContent = "Check";
+        setMsg("", "");
       }
     }
 
-    function updateModeUI() {
-      const checkMode = isCheckWindow();
-      document.querySelectorAll(".status-box").forEach((box) => {
-        if (checkMode) {
-          box.classList.remove("hidden");
-        } else {
-          box.classList.add("hidden");
-        }
-      });
+    function refreshRowClasses(idx) {
+      const row = document.querySelector(`.task-row[data-idx="${idx}"]`);
+      if (!row) return;
+      row.classList.remove("done", "missed");
+      const st = rowState[idx].status;
+      if (!rowState[idx].text.trim()) {
+        rowState[idx].status = "pending";
+        return;
+      }
+      if (st === "done") row.classList.add("done");
+      else if (st === "missed") row.classList.add("missed");
     }
 
     function initRows() {
@@ -803,12 +858,8 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>
-            <input class="task-input" data-idx="${i}" placeholder="Task ${i}" />
-          </td>
-          <td>
-            <div class="status-box hidden" data-idx="${i}">
-              <button type="button" class="status-btn status-btn-done">✓</button>
-              <button type="button" class="status-btn status-btn-missed">•</button>
+            <div class="task-row" data-idx="${i}">
+              <input class="task-input" data-idx="${i}" placeholder="Task ${i}" />
             </div>
           </td>
         `;
@@ -819,49 +870,34 @@
         input.addEventListener("input", () => {
           const idx = Number(input.dataset.idx);
           rowState[idx].text = input.value;
+          refreshRowClasses(idx);
         });
       });
 
-      document.querySelectorAll(".status-box").forEach((box) => {
-        const idx = Number(box.dataset.idx);
-        const btnDone = box.querySelector(".status-btn-done");
-        const btnMissed = box.querySelector(".status-btn-missed");
-
-        function refreshButtons() {
-          btnDone.classList.remove("done-active");
-          btnMissed.classList.remove("missed-active");
-          const st = rowState[idx].status;
-          if (!rowState[idx].text.trim()) {
-            rowState[idx].status = "pending";
-            return;
-          }
-          if (st === "done") {
-            btnDone.classList.add("done-active");
-          } else if (st === "missed") {
-            btnMissed.classList.add("missed-active");
-          }
-        }
-
-        btnDone.addEventListener("click", () => {
+      document.querySelectorAll(".task-row").forEach((row) => {
+        row.addEventListener("click", async (e) => {
+          if (!checkingMode) return;
+          const idx = Number(row.dataset.idx);
           if (!rowState[idx].text.trim()) return;
-          rowState[idx].status =
-            rowState[idx].status === "done" ? "pending" : "done";
-          refreshButtons();
-          playfulFeedback();
-        });
 
-        btnMissed.addEventListener("click", () => {
-          if (!rowState[idx].text.trim()) return;
-          rowState[idx].status =
-            rowState[idx].status === "missed" ? "pending" : "missed";
-          refreshButtons();
-          playfulFeedback();
-        });
+          const rect = row.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const half = rect.width / 2;
 
-        refreshButtons();
+          if (x < half) {
+            rowState[idx].status =
+              rowState[idx].status === "done" ? "pending" : "done";
+          } else {
+            rowState[idx].status =
+              rowState[idx].status === "missed" ? "pending" : "missed";
+          }
+          refreshRowClasses(idx);
+          playfulFeedback();
+          await saveDay(selectedDate);
+        });
       });
 
-      updateModeUI();
+      updateCheckUI();
     }
 
     function applyRows(tasks) {
@@ -882,22 +918,11 @@
         input.value = rowState[idx].text;
       });
 
-      document.querySelectorAll(".status-box").forEach((box) => {
-        const idx = Number(box.dataset.idx);
-        const btnDone = box.querySelector(".status-btn-done");
-        const btnMissed = box.querySelector(".status-btn-missed");
-        btnDone.classList.remove("done-active");
-        btnMissed.classList.remove("missed-active");
-        const st = rowState[idx].status;
-        if (!rowState[idx].text.trim()) rowState[idx].status = "pending";
-        if (st === "done") {
-          btnDone.classList.add("done-active");
-        } else if (st === "missed") {
-          btnMissed.classList.add("missed-active");
-        }
-      });
+      for (let i = 1; i <= MAX_TASKS; i++) {
+        refreshRowClasses(i);
+      }
 
-      updateModeUI();
+      updateCheckUI();
     }
 
     function setMsg(text, type) {
@@ -918,7 +943,7 @@
         document.body.classList.add("celebrate");
         setTimeout(() => document.body.classList.remove("celebrate"), 900);
       } else {
-        setMsg("Updated 🌙", "ok");
+        setMsg("Updated", "ok");
       }
     }
 
@@ -941,10 +966,7 @@
     }
 
     async function saveDay(dateStr) {
-      if (!currentUserId) {
-        alert("먼저 이름을 선택해 주세요!");
-        return;
-      }
+      if (!currentUserId) return;
       const tasks = [];
       for (let i = 1; i <= MAX_TASKS; i++) {
         const { text, status } = rowState[i];
@@ -1174,11 +1196,18 @@
     }
 
     async function loadWeather() {
-      if (!weatherBox) return;
+      if (!weatherBox || !currentUserId || !USERS[currentUserId]) return;
+      const locKey = USERS[currentUserId].location || "seoul";
+      const loc = LOCATIONS[locKey] || LOCATIONS["seoul"];
       try {
-        const res = await fetch(
-          "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true&timezone=Asia%2FSeoul"
-        );
+        const url =
+          "https://api.open-meteo.com/v1/forecast?latitude=" +
+          loc.lat +
+          "&longitude=" +
+          loc.lon +
+          "&current_weather=true&timezone=" +
+          encodeURIComponent(loc.timezone);
+        const res = await fetch(url);
         if (!res.ok) throw new Error("weather error");
         const data = await res.json();
         const cw = data.current_weather;
@@ -1201,13 +1230,10 @@
     });
 
     userBadge.addEventListener("click", () => {
-      if (!currentUserId) return;
-      if (confirm("다른 이름으로 바꿀까요?")) {
-        currentUserId = null;
-        localStorage.removeItem(STORAGE_KEY_USER);
-        setCurrentUser(null);
-        showLoginView();
-      }
+      currentUserId = null;
+      localStorage.removeItem(STORAGE_KEY_USER);
+      setCurrentUser(null);
+      showLoginView();
     });
 
     document.querySelectorAll(".user-card").forEach((btn) => {
@@ -1222,6 +1248,7 @@
         await loadMonth(currentYear, currentMonth);
         renderCalendar();
         await loadDay(selectedDate);
+        loadWeather();
       });
     });
 
@@ -1244,6 +1271,17 @@
     clearBtn.addEventListener("click", () => {
       if (confirm("Clear this day?")) {
         clearDay(selectedDate);
+      }
+    });
+
+    checkModeBtn.addEventListener("click", async () => {
+      if (!checkingMode) {
+        checkingMode = true;
+        updateCheckUI();
+      } else {
+        await saveDay(selectedDate);
+        checkingMode = false;
+        updateCheckUI();
       }
     });
 
@@ -1281,15 +1319,11 @@
         await loadMonth(currentYear, currentMonth);
         renderCalendar();
         await loadDay(selectedDate);
+        loadWeather();
       } else {
         setCurrentUser(null);
         showLoginView();
       }
-
-      updateModeUI();
-      loadWeather();
-      setInterval(updateModeUI, 60 * 1000);
-      setInterval(loadWeather, 30 * 60 * 1000);
     }
 
     init();

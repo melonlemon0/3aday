@@ -437,6 +437,8 @@
       transition: background 0.15s, border 0.15s, transform 0.07s;
       font-size: 0.95rem;
       align-items: flex-start;
+      aspect-ratio: 1 / 1;       /* same size on desktop + mobile */
+      overflow: hidden;
     }
     .cell.empty {
       background: transparent;
@@ -453,7 +455,6 @@
       transform: translateY(-1px);
     }
 
-    /* desktop done/missed day bg */
     .cell.done-day {
       background: #d8f6e6;
       border-color: #34c75980;
@@ -465,15 +466,18 @@
 
     .cell-top {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       margin-bottom: 2px;
       width: 100%;
+      gap: 4px;
     }
     .cell-date {
       font-weight: 600;
       font-size: 1rem;
       color: #1f3354;
+      display: inline-flex;
+      align-items: center;
     }
 
     .today-date {
@@ -485,31 +489,13 @@
       font-weight: 700;
     }
 
-    .holiday-row {
-      font-size: 0.8rem;
-      color: #b4466b;
-      margin-bottom: 1px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex-shrink: 0;
+    /* flags inline next to numbers */
+    .holiday-flags {
+      margin-left: 4px;
+      font-size: 0.9rem;
     }
 
-    /* single day-status dot in cell (mobile) */
-    .day-status-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-top: 4px;
-    }
-    .day-status-dot.done {
-      background: #38c172;   /* green */
-    }
-    .day-status-dot.missed {
-      background: #ffd54b;   /* yellow */
-    }
-
-    /* desktop mini task list in calendar cells */
+    /* mini task list (desktop) */
     .tasks-mini {
       margin-top: 2px;
       display: flex;
@@ -546,6 +532,28 @@
       line-height: 1.2;
       white-space: normal;
       word-break: break-word;
+    }
+
+    /* mobile: row of dots per day */
+    .day-dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .day-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .day-dot.done {
+      background: #38c172;
+    }
+    .day-dot.missed {
+      background: #ffd54b;
+    }
+    .day-dot.pending {
+      background: #95a5a6;
     }
 
     #backToListBtn {
@@ -650,15 +658,6 @@
       .task-input {
         font-size: 1.05rem;
       }
-      /* 📱 Mobile: let holiday names wrap instead of stretching width */
-      .holiday-row {
-        font-size: 0.75rem;
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
-        word-break: keep-all;
-        display: block;
-      }
     }
 
     @media (max-width: 480px) {
@@ -709,6 +708,14 @@
           <button class="user-card" data-user-id="sara">
             <div class="user-emoji">☁️</div>
             <div class="user-name">Sara</div>
+          </button>
+          <button class="user-card" data-user-id="jeongcheol">
+            <div class="user-emoji">🌵</div>
+            <div class="user-name">정철</div>
+          </button>
+          <button class="user-card" data-user-id="aro">
+            <div class="user-emoji">🐰</div>
+            <div class="user-name">aro</div>
           </button>
         </div>
       </section>
@@ -799,10 +806,12 @@
     const STORAGE_KEY_USER = "three_things_user";
 
     const USERS = {
-      jaehyun: { label: "재현", emoji: "🍍", location: "seoul" },
-      jjack:   { label: "짹짹이", emoji: "🧑🏾", location: "seoul" },
-      baam:    { label: "Baam",  emoji: "👨🏻‍🦱", location: "newjersey" },
-      sara:    { label: "Sara",  emoji: "☁️",   location: "louisville_ms" },
+      jaehyun:    { label: "재현",     emoji: "🍍", location: "seoul" },
+      jjack:      { label: "짹짹이",   emoji: "🧑🏾", location: "seoul" },
+      baam:       { label: "Baam",     emoji: "👨🏻‍🦱", location: "newjersey" },
+      sara:       { label: "Sara",     emoji: "☁️", location: "louisville_ms" },
+      jeongcheol: { label: "정철",     emoji: "🌵", location: "seoul" },
+      aro:        { label: "aro",      emoji: "🐰", location: "seoul" },
     };
 
     const LOCATIONS = {
@@ -860,17 +869,18 @@
     const mobileWeekSubtitle = document.getElementById("mobileWeekSubtitle");
     const mobileWeekList = document.getElementById("mobileWeekList");
 
+    // flags only
     const HOLIDAYS = {
-      "01-01": ["🇰🇷 새해", "🇺🇸 New Year's Day"],
-      "03-01": ["🇰🇷 삼일절"],
-      "05-05": ["🇰🇷 어린이날"],
-      "06-06": ["🇰🇷 현충일"],
-      "07-04": ["🇺🇸 Independence Day"],
-      "08-15": ["🇰🇷 광복절"],
-      "10-03": ["🇰🇷 개천절"],
-      "10-09": ["🇰🇷 한글날"],
-      "11-11": ["🇺🇸 Veterans Day"],
-      "12-25": ["🇰🇷 성탄절", "🇺🇸 Christmas Day"],
+      "01-01": ["🇰🇷", "🇺🇸"],
+      "03-01": ["🇰🇷"],
+      "05-05": ["🇰🇷"],
+      "06-06": ["🇰🇷"],
+      "07-04": ["🇺🇸"],
+      "08-15": ["🇰🇷"],
+      "10-03": ["🇰🇷"],
+      "10-09": ["🇰🇷"],
+      "11-11": ["🇺🇸"],
+      "12-25": ["🇰🇷", "🇺🇸"],
     };
 
     function getHolidayLabels(dateStr) {
@@ -1483,18 +1493,17 @@
           num.classList.add("today-date");
         }
 
-        top.appendChild(num);
-        cell.appendChild(top);
-
+        // flags next to number
         const holidayLabels = getHolidayLabels(dateStr);
         if (holidayLabels) {
-          holidayLabels.forEach((label) => {
-            const holidayRow = document.createElement("div");
-            holidayRow.className = "holiday-row";
-            holidayRow.textContent = label;
-            cell.appendChild(holidayRow);
-          });
+          const flagSpan = document.createElement("span");
+          flagSpan.className = "holiday-flags";
+          flagSpan.textContent = holidayLabels.join("");
+          num.appendChild(flagSpan);
         }
+
+        top.appendChild(num);
+        cell.appendChild(top);
 
         const info = monthSummary[dateStr];
         if (info && info.tasks.length > 0) {
@@ -1502,9 +1511,19 @@
           const allMissed = info.tasks.every((t) => t.status === "missed");
 
           if (isMobile()) {
-            const dot = document.createElement("div");
-            dot.className = "day-status-dot " + (allDone ? "done" : "missed");
-            cell.appendChild(dot);
+            const dotsWrap = document.createElement("div");
+            dotsWrap.className = "day-dots";
+            info.tasks
+              .sort((a, b) => a.idx - b.idx)
+              .forEach((t) => {
+                const dot = document.createElement("div");
+                let cls = "pending";
+                if (t.status === "done") cls = "done";
+                else if (t.status === "missed") cls = "missed";
+                dot.className = "day-dot " + cls;
+                dotsWrap.appendChild(dot);
+              });
+            cell.appendChild(dotsWrap);
           } else {
             if (allDone) cell.classList.add("done-day");
             else if (allMissed) cell.classList.add("missed-day");

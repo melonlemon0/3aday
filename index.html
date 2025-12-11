@@ -212,12 +212,16 @@
     .tasks-header-left {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
     .tasks-header-left h2 {
       margin: 0;
       font-size: 1.4rem;
       color: #244064;
+    }
+    .day-label {
+      font-size: 0.95rem;
+      color: #6c7da6;
     }
     .tasks-header-right {
       display: flex;
@@ -237,32 +241,6 @@
       gap: 6px;
       min-width: 80px;
       justify-content: center;
-    }
-
-    .date-box {
-      font-size: 0.95rem;
-    }
-    .date-box input[type="date"] {
-      border-radius: 999px;
-      border: 1px solid #c9def7;
-      padding: 6px 12px;
-      font-size: 0.95rem;
-      background: #f5f9ff;
-      color: #244064;
-    }
-    .date-box input[type="date"]:focus {
-      outline: none;
-      border-color: #4c6fff;
-      box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.22);
-      background: #ffffff;
-    }
-
-    .tasks-subtitle {
-      font-size: 1.05rem;
-      color: #64779e;
-      margin-top: 6px;
-      margin-bottom: 8px;
-      text-align: center;
     }
 
     table {
@@ -387,6 +365,18 @@
       color: #1e8449;
     }
 
+    /* ⭐ Highlighted hint – pastel purple, left of Complete button */
+    .check-hint {
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f4e8ff;   /* light pastel purple */
+      border: 1px solid #d2b7ff;
+      color: #5b3c9c;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     /* CALENDAR VIEW */
     .panel-calendar {
       background: #f4f8ff;
@@ -430,7 +420,6 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
       font-size: 0.95rem;
-      /* ✅ no fixed height: height grows with content */
     }
     .weekday {
       text-align: center;
@@ -449,7 +438,6 @@
       flex-direction: column;
       transition: background 0.15s, border 0.15s, transform 0.07s;
       font-size: 0.95rem;
-      /* ✅ no overflow hidden: show all tasks */
     }
     .cell.empty {
       background: transparent;
@@ -513,7 +501,6 @@
       flex-direction: column;
       gap: 4px;
       font-size: 0.9rem;
-      /* ✅ let it grow with cell */
     }
     .task-chip {
       display: flex;
@@ -547,22 +534,112 @@
     }
 
     /* ⬅ Back button: blend in more */
-#backToListBtn {
-  background: #e9f0ff;
-  border-color: #d2def5;
-  padding: 6px 14px;
-  box-shadow: none;
-  font-size: 0.95rem;
-  font-weight: 700;        /* 🔥 make arrow + List bold */
-  color: #1f3354;
-}
-#backToListBtn span:first-child {
-  font-size: 1.1rem;       /* arrow a bit larger */
-  margin-right: 4px;
-}
-#backToListBtn span:last-child {
-  font-size: 0.95rem;      /* List slightly bigger too */
-}
+    #backToListBtn {
+      background: #e9f0ff;
+      border-color: #d2def5;
+      padding: 6px 14px;
+      box-shadow: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1f3354;
+    }
+    #backToListBtn span:first-child {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+    #backToListBtn span:last-child {
+      font-size: 0.95rem;
+    }
+
+    /* WEEK VIEW */
+    .panel-week {
+      background: #f7fbff;
+      border: 1px solid #c9def7;
+    }
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .week-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .week-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #244064;
+    }
+    #backToCalendarBtn {
+      background: #e9f0ff;
+      border-color: #d2def5;
+      padding: 6px 14px;
+      box-shadow: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1f3354;
+    }
+    #backToCalendarBtn span:first-child {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    .week-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .week-day {
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f0f5ff;
+      border: 1px solid #d2def5;
+    }
+    .week-day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+      color: #223a64;
+    }
+    .week-day-title {
+      font-weight: 700;
+    }
+    .week-day-today-badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #f3c34f;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1f3354;
+    }
+    .week-day-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.9rem;
+    }
+    .week-task-row {
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .week-task-status {
+      flex-shrink: 0;
+    }
+    .week-task-title {
+      flex: 1;
+      word-break: break-word;
+    }
+    .week-day-empty {
+      font-size: 0.85rem;
+      color: #8c9bbd;
+    }
 
     @media (max-width: 768px) {
       .app {
@@ -586,6 +663,9 @@
       }
       .task-input {
         font-size: 1.05rem;
+      }
+      .week-header h2 {
+        font-size: 1.1rem;
       }
     }
 
@@ -640,26 +720,27 @@
             <div class="user-emoji">👨🏻‍🦱</div>
             <div class="user-name">Baam</div>
           </button>
+          <!-- Sara -->
+          <button class="user-card" data-user-id="sara">
+            <div class="user-emoji">☁️</div>
+            <div class="user-name">Sara</div>
+          </button>
         </div>
       </section>
     </div>
 
-    <!-- LIST VIEW -->
+    <!-- LIST VIEW (DAY) -->
     <div id="listView" class="view">
       <section class="panel panel-tasks">
         <div class="tasks-header">
           <div class="tasks-header-left">
-            <h2>Today</h2>
-            <div class="date-box">
-              <input type="date" id="dateInput" />
-            </div>
+            <h2 id="dayTitle">Today</h2>
+            <div id="dayLabel" class="day-label"></div>
           </div>
           <div class="tasks-header-right">
             <div id="weatherBox" class="weather-box">⛅ --°C</div>
           </div>
         </div>
-
-        <div class="tasks-subtitle">Get em done!</div>
 
         <table>
           <thead>
@@ -675,6 +756,10 @@
             <div id="msg" class="msg"></div>
           </div>
           <div class="actions-row-right">
+            <!-- ⭐ Hint now on the LEFT of the Complete button -->
+            <span id="checkHint" class="check-hint hidden">
+              🟢 = done · 🟡 = not done
+            </span>
             <button class="secondary" id="checkModeBtn">Check</button>
           </div>
         </div>
@@ -700,6 +785,21 @@
         <div class="calendar-grid" id="calendarGrid"></div>
       </section>
     </div>
+
+    <!-- WEEK VIEW (for mobile) -->
+    <div id="weekView" class="view">
+      <section class="panel panel-week">
+        <div class="week-header">
+          <div class="week-header-left">
+            <button class="icon-btn" id="backToCalendarBtn">
+              <span>←</span><span>Calendar</span>
+            </button>
+            <h2 id="weekLabel"></h2>
+          </div>
+        </div>
+        <div id="weekListContainer" class="week-list"></div>
+      </section>
+    </div>
   </div>
 
   <script>
@@ -708,13 +808,14 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwaW9iZWFsdnltcHhieXBmbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNzYxNDIsImV4cCI6MjA3ODk1MjE0Mn0.mLvGyy-eMWr-ow2b2USMg7PXKq2EUfK1fyJEsdGThKw";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const MAX_TASKS = 5;
+    const MAX_TASKS = 3; // 3 things a day
     const STORAGE_KEY_USER = "three_things_user";
 
     const USERS = {
       jaehyun: { label: "재현", emoji: "🍍", location: "seoul" },
       jjack:   { label: "짹짹이", emoji: "🧑🏾", location: "seoul" },
       baam:    { label: "Baam",  emoji: "👨🏻‍🦱", location: "newjersey" },
+      sara:    { label: "Sara",  emoji: "☁️",   location: "louisville_ms" },
     };
 
     const LOCATIONS = {
@@ -730,20 +831,29 @@
         lon: -74.4057,
         timezone: "America/New_York",
       },
+      louisville_ms: {
+        name: "Louisville, MS",
+        lat: 33.1235,
+        lon: -89.0553,
+        timezone: "America/Chicago",
+      },
     };
 
     const loginView = document.getElementById("loginView");
     const listView = document.getElementById("listView");
     const calendarView = document.getElementById("calendarView");
+    const weekView = document.getElementById("weekView");
+
     const calendarViewBtn = document.getElementById("calendarViewBtn");
     const backToListBtn = document.getElementById("backToListBtn");
+    const backToCalendarBtn = document.getElementById("backToCalendarBtn");
     const userBadge = document.getElementById("userBadge");
 
     const taskBody = document.getElementById("taskBody");
-    const dateInput = document.getElementById("dateInput");
     const saveBtn = document.getElementById("saveBtn");
     const clearBtn = document.getElementById("clearBtn");
     const checkModeBtn = document.getElementById("checkModeBtn");
+    const checkHint = document.getElementById("checkHint");
     const msgEl = document.getElementById("msg");
     const weatherBox = document.getElementById("weatherBox");
 
@@ -751,6 +861,12 @@
     const calendarGrid = document.getElementById("calendarGrid");
     const prevMonthBtn = document.getElementById("prevMonth");
     const nextMonthBtn = document.getElementById("nextMonth");
+
+    const weekLabel = document.getElementById("weekLabel");
+    const weekListContainer = document.getElementById("weekListContainer");
+
+    const dayLabel = document.getElementById("dayLabel");
+    const dayTitleEl = document.getElementById("dayTitle");
 
     const HOLIDAYS = {
       "01-01": ["🇰🇷 새해", "🇺🇸 New Year's Day"],
@@ -780,6 +896,10 @@
     let currentUserId = null;
     let checkingMode = false;
 
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+
     function setCurrentUser(id) {
       currentUserId = id;
       if (id && USERS[id]) {
@@ -796,11 +916,13 @@
       loginView.classList.add("active");
       listView.classList.remove("active");
       calendarView.classList.remove("active");
+      weekView.classList.remove("active");
     }
     function showListView() {
       loginView.classList.remove("active");
       listView.classList.add("active");
       calendarView.classList.remove("active");
+      weekView.classList.remove("active");
     }
     function showCalendarViewSafe() {
       if (!currentUserId) {
@@ -810,6 +932,17 @@
       loginView.classList.remove("active");
       listView.classList.remove("active");
       calendarView.classList.add("active");
+      weekView.classList.remove("active");
+    }
+    function showWeekView() {
+      if (!currentUserId) {
+        showLoginView();
+        return;
+      }
+      loginView.classList.remove("active");
+      listView.classList.remove("active");
+      calendarView.classList.remove("active");
+      weekView.classList.add("active");
     }
 
     function toLocalISO(d) {
@@ -819,18 +952,41 @@
       return `${y}-${m}-${day}`;
     }
 
+    function updateDayLabel() {
+      if (!dayLabel) return;
+      const d = new Date(selectedDate + "T00:00:00");
+      const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const label = `${weekdayNames[d.getDay()]}, ${months[d.getMonth()]} ${String(d.getDate()).padStart(2,"0")}`;
+      dayLabel.textContent = label;
+
+      if (dayTitleEl) {
+        const todayStr = toLocalISO(new Date());
+        dayTitleEl.textContent = (selectedDate === todayStr) ? "Today" : "Selected Day";
+      }
+    }
+
     function updateCheckUI() {
       const active = checkingMode;
+
       document.querySelectorAll(".task-row").forEach((row) => {
         row.classList.toggle("check-mode", active);
       });
+
+      // 🔒 Make inputs read-only in Check/Complete mode
+      document.querySelectorAll(".task-input").forEach((input) => {
+        input.readOnly = active;
+      });
+
       if (active) {
         checkModeBtn.classList.add("toggled");
         checkModeBtn.textContent = "Complete";
-        setMsg("Green = done   Yellow = not done", "");
+        if (checkHint) checkHint.classList.remove("hidden");
+        setMsg("", "");
       } else {
         checkModeBtn.classList.remove("toggled");
         checkModeBtn.textContent = "Check";
+        if (checkHint) checkHint.classList.add("hidden");
         setMsg("", "");
       }
     }
@@ -856,7 +1012,7 @@
         tr.innerHTML = `
           <td>
             <div class="task-row" data-idx="${i}">
-              <input class="task-input" data-idx="${i}" placeholder="Task ${i}" />
+              <input class="task-input" data-idx="${i}" placeholder="${i}." />
             </div>
           </td>
         `;
@@ -1167,13 +1323,19 @@
 
         cell.addEventListener("click", () => {
           selectedDate = dateStr;
-          dateInput.value = selectedDate;
-          loadDay(selectedDate);
+          updateDayLabel();
+
           document.querySelectorAll(".cell").forEach((c) =>
             c.classList.remove("selected")
           );
           cell.classList.add("selected");
-          showListView();
+
+          if (isMobile()) {
+            showWeekForDate(selectedDate);
+          } else {
+            loadDay(selectedDate);
+            showListView();
+          }
         });
 
         calendarGrid.appendChild(cell);
@@ -1219,11 +1381,130 @@
       }
     }
 
+    // WEEK VIEW HELPERS
+    function getWeekRange(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      const day = d.getDay(); // 0 (Sun) - 6 (Sat)
+      const start = new Date(d);
+      start.setDate(d.getDate() - day); // Sunday
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6); // Saturday
+      return {
+        startDate: toLocalISO(start),
+        endDate: toLocalISO(end),
+      };
+    }
+
+    function formatWeekLabel(startDate, endDate) {
+      return `${startDate} ~ ${endDate}`;
+    }
+
+    async function showWeekForDate(dateStr) {
+      if (!currentUserId) return;
+      const { startDate, endDate } = getWeekRange(dateStr);
+      weekLabel.textContent = formatWeekLabel(startDate, endDate);
+      weekListContainer.innerHTML = "";
+
+      const { data, error } = await supabaseClient
+        .from("daily_tasks")
+        .select("task_date, idx, title, status")
+        .eq("user_id", currentUserId)
+        .gte("task_date", startDate)
+        .lte("task_date", endDate)
+        .order("task_date", { ascending: true })
+        .order("idx", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        weekListContainer.textContent = "Error loading week 😢";
+      } else {
+        const grouped = {};
+        (data || []).forEach((row) => {
+          if (!grouped[row.task_date]) grouped[row.task_date] = [];
+          grouped[row.task_date].push({
+            idx: row.idx,
+            title: row.title,
+            status: row.status || "pending",
+          });
+        });
+
+        const todayStr = toLocalISO(new Date());
+        const start = new Date(startDate + "T00:00:00");
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(start);
+          d.setDate(start.getDate() + i);
+          const ds = toLocalISO(d);
+          const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+          const dayDiv = document.createElement("div");
+          dayDiv.className = "week-day";
+
+          const header = document.createElement("div");
+          header.className = "week-day-header";
+
+          const title = document.createElement("div");
+          title.className = "week-day-title";
+          title.textContent = `${ds} (${weekdayNames[d.getDay()]})`;
+          header.appendChild(title);
+
+          if (ds === todayStr) {
+            const todayBadge = document.createElement("div");
+            todayBadge.className = "week-day-today-badge";
+            todayBadge.textContent = "Today";
+            header.appendChild(todayBadge);
+          }
+
+          dayDiv.appendChild(header);
+
+          const tasksDiv = document.createElement("div");
+          tasksDiv.className = "week-day-tasks";
+
+          const tasks = grouped[ds] || [];
+          if (tasks.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "week-day-empty";
+            empty.textContent = "No tasks saved.";
+            tasksDiv.appendChild(empty);
+          } else {
+            tasks
+              .sort((a, b) => a.idx - b.idx)
+              .forEach((t) => {
+                const row = document.createElement("div");
+                row.className = "week-task-row";
+
+                const statusSpan = document.createElement("span");
+                statusSpan.className = "week-task-status";
+                if (t.status === "done") statusSpan.textContent = "✅";
+                else if (t.status === "missed") statusSpan.textContent = "⚠️";
+                else statusSpan.textContent = "•";
+
+                const titleSpan = document.createElement("span");
+                titleSpan.className = "week-task-title";
+                titleSpan.textContent = t.title;
+
+                row.appendChild(statusSpan);
+                row.appendChild(titleSpan);
+                tasksDiv.appendChild(row);
+              });
+          }
+
+          dayDiv.appendChild(tasksDiv);
+          weekListContainer.appendChild(dayDiv);
+        }
+      }
+
+      showWeekView();
+    }
+
+    // EVENT LISTENERS
     calendarViewBtn.addEventListener("click", () => {
       showCalendarViewSafe();
     });
     backToListBtn.addEventListener("click", () => {
       showListView();
+    });
+    backToCalendarBtn.addEventListener("click", () => {
+      showCalendarViewSafe();
     });
 
     userBadge.addEventListener("click", () => {
@@ -1241,23 +1522,11 @@
         localStorage.setItem(STORAGE_KEY_USER, userId);
         showListView();
         selectedDate = toLocalISO(new Date());
-        dateInput.value = selectedDate;
+        updateDayLabel();
         await loadMonth(currentYear, currentMonth);
         renderCalendar();
         await loadDay(selectedDate);
         loadWeather();
-      });
-    });
-
-    dateInput.addEventListener("change", () => {
-      if (!dateInput.value) return;
-      selectedDate = dateInput.value;
-      const d = new Date(selectedDate + "T00:00:00");
-      currentYear = d.getFullYear();
-      currentMonth = d.getMonth();
-      loadMonth(currentYear, currentMonth).then(() => {
-        renderCalendar();
-        loadDay(selectedDate);
       });
     });
 
@@ -1307,7 +1576,7 @@
     async function init() {
       initRows();
       selectedDate = toLocalISO(new Date());
-      if (dateInput) dateInput.value = selectedDate;
+      updateDayLabel();
 
       const savedUser = localStorage.getItem(STORAGE_KEY_USER);
       if (savedUser && USERS[savedUser]) {
@@ -1327,3 +1596,4 @@
   </script>
 </body>
 </html>
+

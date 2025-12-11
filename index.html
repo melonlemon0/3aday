@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>3 Things a Day</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: radial-gradient(circle at top, #e3efff, #f2f5ff);
+      transition: background 0.4s ease;
+    }
+    body.celebrate {
+      animation: pop-bg 0.8s ease;
+    }
+    @keyframes pop-bg {
+      0% {
+        background: radial-gradient(circle at top, #e3efff, #f2f5ff);
+      }
+      40% {
+        background: radial-gradient(circle at top, #d3f4ff, #edf4ff);
+      }
+      100% {
+        background: radial-gradient(circle at top, #e3efff, #f2f5ff);
+      }
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      margin: 24px 12px;
+      background: #ffffffee;
+      border-radius: 20px;
+      padding: 20px 18px 18px;
+      box-shadow: 0 16px 32px rgba(80, 112, 180, 0.18);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+      color: #223a64;
+    }
+    .header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .icon-btn {
+      border-radius: 999px;
+      border: 1px solid #c6d9ff;
+      background: #e1ecff;
+      padding: 9px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #33456f;
+    }
+    .icon-btn span {
+      font-size: 1.2rem;
+    }
+    .icon-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(80, 112, 180, 0.3);
+    }
+
+    .user-badge {
+      border-radius: 999px;
+      padding: 6px 14px;
+      background: #ecf3ff;
+      border: 1px solid #c6d9ff;
+      font-size: 0.9rem;
+      color: #2d4166;
+      cursor: pointer;
+    }
+    .user-badge-hidden {
+      display: none;
+    }
+
+    .view {
+      display: none;
+    }
+    .view.active {
+      display: block;
+    }
+
+    /* LOGIN VIEW */
+    .panel {
+      border-radius: 18px;
+      padding: 14px 12px;
+    }
+    .panel-login {
+      background: #f7fbff;
+      border: 1px solid #c9def7;
+      text-align: center;
+      padding: 24px 16px 26px;
+    }
+    .login-title {
+      font-size: 1.6rem;
+      color: #244064;
+      margin: 4px 0 4px;
+    }
+    .login-sub {
+      font-size: 1rem;
+      color: #66789e;
+      margin-bottom: 18px;
+    }
+    .user-grid {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .user-card {
+      border-radius: 16px;
+      border: 1px solid #c9def7;
+      background: #ecf3ff;
+      padding: 14px 18px;
+      min-width: 120px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      transition: transform 0.08s, box-shadow 0.12s, background 0.12s;
+      font-size: 1rem;
+      color: #223a64;
+    }
+    .user-card:hover {
+      background: #dde8ff;
+      box-shadow: 0 6px 12px rgba(80, 112, 180, 0.25);
+      transform: translateY(-1px);
+    }
+    .user-card:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 3px 7px rgba(80, 112, 180, 0.18);
+    }
+    .user-emoji {
+      font-size: 1.8rem;
+    }
+    .user-name {
+      font-size: 1.1rem;
+    }
+
+    /* LIST VIEW */
+    .panel-tasks {
+      background: #f7fbff;
+      border: 1px solid #c9def7;
+    }
+    .tasks-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .tasks-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #244064;
+    }
+    .weather-box {
+      border-radius: 999px;
+      padding: 6px 14px;
+      background: #e4f0ff;
+      border: 1px solid #c6d9ff;
+      font-size: 0.98rem;
+      color: #2d4166;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 80px;
+      justify-content: center;
+    }
+
+    .tasks-subtitle {
+      font-size: 1.05rem;
+      color: #64779e;
+      margin-bottom: 10px;
+    }
+
+    .date-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.98rem;
+      color: #55658a;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .date-box input[type="date"] {
+      border-radius: 999px;
+      border: 1px solid #c9def7;
+      padding: 7px 14px;
+      font-size: 1rem;
+      background: #f5f9ff;
+      color: #244064;
+    }
+    .date-box input[type="date"]:focus {
+      outline: none;
+      border-color: #4c6fff;
+      box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.22);
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th,
+    td {
+      padding: 10px 7px;
+      border-bottom: 1px solid #dbe7ff;
+    }
+    th {
+      font-size: 1rem;
+      color: #6c7da6;
+      text-align: left;
+    }
+
+    .task-input {
+      width: 100%;
+      padding: 12px 10px;
+      border-radius: 12px;
+      border: 1px solid #c9def7;
+      font-size: 1.18rem;
+      background: #f5f9ff;
+    }
+    .task-input::placeholder {
+      color: #9aaccc;
+    }
+    .task-input:focus {
+      outline: none;
+      border-color: #4c6fff;
+      box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.22);
+      background: #ffffff;
+    }
+
+    .status-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-box.hidden {
+      display: none;
+    }
+    .status-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e0e7ff;
+      color: #546497;
+      transition: transform 0.07s, box-shadow 0.1s, background 0.1s, color 0.1s,
+        opacity 0.1s;
+    }
+    .status-btn:active {
+      transform: scale(0.94);
+      box-shadow: 0 0 0 3px rgba(76, 111, 255, 0.25);
+    }
+    .status-btn.done-active {
+      background: #34c759;
+      color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.4);
+    }
+    .status-btn.missed-active {
+      background: #ffd54b;
+      color: #7a5a00;
+      box-shadow: 0 0 0 3px rgba(255, 213, 75, 0.45);
+    }
+
+    .actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .actions-row button.primary {
+      border-radius: 999px;
+      border: none;
+      padding: 10px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4c6fff, #64a6ff);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 6px 12px rgba(65, 110, 255, 0.35);
+    }
+    .actions-row button.primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 3px 7px rgba(65, 110, 255, 0.25);
+    }
+    .actions-row button.secondary {
+      border-radius: 999px;
+      border: 1px solid #c6d9ff;
+      padding: 9px 20px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: #ecf3ff;
+      color: #344672;
+    }
+    .msg {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      min-height: 1.1em;
+      color: #5c6c91;
+    }
+    .msg.error {
+      color: #d63031;
+    }
+    .msg.ok {
+      color: #1e8449;
+    }
+
+    /* CALENDAR VIEW */
+    .panel-calendar {
+      background: #f4f8ff;
+      border: 1px solid #c6d9ff;
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+    .calendar-header-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .calendar-header h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #244064;
+    }
+    .calendar-nav {
+      display: flex;
+      gap: 8px;
+    }
+    .calendar-nav button {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 13px;
+      font-size: 0.98rem;
+      cursor: pointer;
+      background: #d4e1ff;
+      color: #244064;
+    }
+    .calendar-nav button:hover {
+      background: #c2d5ff;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      font-size: 1rem;
+    }
+    .weekday {
+      text-align: center;
+      font-weight: 600;
+      color: #5c6c91;
+      padding: 5px 0;
+      font-size: 1rem;
+    }
+    .cell {
+      border-radius: 12px;
+      padding: 7px 7px;
+      min-height: 96px;
+      cursor: pointer;
+      background: #eaf1ff;
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 0.15s, border 0.15s, transform 0.07s;
+      font-size: 1.05rem;
+    }
+    .cell.empty {
+      background: transparent;
+      cursor: default;
+      border: none;
+    }
+    .cell:hover:not(.empty) {
+      border-color: #93b5ff;
+      background: #dde8ff;
+    }
+    .cell.selected {
+      border-color: #4c6fff;
+      box-shadow: 0 0 0 1px #4c6fff;
+      transform: translateY(-1px);
+    }
+    .cell.done-day {
+      background: #d8f6e6;
+      border-color: #34c75980;
+    }
+    .cell.missed-day {
+      background: #ffe1e1;
+      border-color: #ff6b6b80;
+    }
+
+    .cell-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .cell-date {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #1f3354;
+    }
+    .today-date {
+      border-radius: 999px;
+      padding: 4px 12px;
+      border: 3px solid #f3c34f;
+      background: #fffdf3;
+      font-weight: 700;
+    }
+
+    .holiday-row {
+      font-size: 0.9rem;
+      color: #b4466b;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tasks-mini {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 1.05rem;
+    }
+    .task-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 2px 0;
+    }
+    .chip-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chip-dot.done {
+      background: #38c172;
+    }
+    .chip-dot.missed {
+      background: #ffd54b;
+    }
+    .chip-dot.pending {
+      background: #95a5a6;
+    }
+    .chip-label {
+      opacity: 0.95;
+      font-size: 1.02rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>3 Things a Day</h1>
+      </div>
+      <div class="header-right">
+        <div id="userBadge" class="user-badge user-badge-hidden"></div>
+        <button class="icon-btn" id="calendarViewBtn">
+          <span>📅</span> <span>Calendar</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- LOGIN VIEW -->
+    <div id="loginView" class="view active">
+      <section class="panel panel-login">
+        <div class="login-title">Pick Yourself</div>
+        <div class="login-sub"></div>
+        <div class="user-grid">
+          <button class="user-card" data-user-id="jaehyun">
+            <div class="user-emoji">🍍</div>
+            <div class="user-name">재현</div>
+          </button>
+          <button class="user-card" data-user-id="jjack">
+            <div class="user-emoji">🧑🏿</div>
+            <div class="user-name">짹짹이</div>
+          </button>
+          <button class="user-card" data-user-id="baam">
+            <div class="user-emoji">👨🏻‍🦱</div>
+            <div class="user-name">Baam</div>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div id="listView" class="view">
+      <section class="panel panel-tasks">
+        <div class="tasks-header">
+          <h2>Today</h2>
+          <div id="weatherBox" class="weather-box">⛅ --°C</div>
+        </div>
+
+        <div class="date-box">
+          <input type="date" id="dateInput" />
+        </div>
+
+        <div class="tasks-subtitle">Let's get em done!</div>
+
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th style="width:140px;"></th>
+            </tr>
+          </thead>
+          <tbody id="taskBody"></tbody>
+        </table>
+
+        <div class="actions-row">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="primary" id="saveBtn">Save</button>
+            <button class="secondary" id="clearBtn">Clear</button>
+          </div>
+          <div id="msg" class="msg"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CALENDAR VIEW -->
+    <div id="calendarView" class="view">
+      <section class="panel panel-calendar">
+        <div class="calendar-header">
+          <div class="calendar-header-left">
+            <button class="icon-btn" id="backToListBtn">
+              <span>←</span> <span>List</span>
+            </button>
+            <h2 id="monthLabel"></h2>
+          </div>
+          <div class="calendar-nav">
+            <button id="prevMonth">◀</button>
+            <button id="nextMonth">▶</button>
+          </div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Supabase
+    const supabaseUrl = "https://upiobealvympxbypfmkc.supabase.co";
+    const supabaseKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwaW9iZWFsdnltcHhieXBmbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNzYxNDIsImV4cCI6MjA3ODk1MjE0Mn0.mLvGyy-eMWr-ow2b2USMg7PXKq2EUfK1fyJEsdGThKw";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    const MAX_TASKS = 5;
+    const STORAGE_KEY_USER = "three_things_user";
+
+    const USERS = {
+      jaehyun: { label: "재현 🍍" },
+      jjack: { label: "짹짹이 🧑🏿" },
+      baam: { label: "Baam 👨🏻‍🦱" },
+    };
+
+    const loginView = document.getElementById("loginView");
+    const listView = document.getElementById("listView");
+    const calendarView = document.getElementById("calendarView");
+    const calendarViewBtn = document.getElementById("calendarViewBtn");
+    const backToListBtn = document.getElementById("backToListBtn");
+    const userBadge = document.getElementById("userBadge");
+
+    const taskBody = document.getElementById("taskBody");
+    const dateInput = document.getElementById("dateInput");
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const msgEl = document.getElementById("msg");
+    const weatherBox = document.getElementById("weatherBox");
+
+    const monthLabel = document.getElementById("monthLabel");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const prevMonthBtn = document.getElementById("prevMonth");
+    const nextMonthBtn = document.getElementById("nextMonth");
+
+    // Fixed-date holidays (KR + US)
+    const HOLIDAYS = {
+      "01-01": ["🇰🇷 새해", "🇺🇸 New Year's Day"],
+      "03-01": ["🇰🇷 삼일절"],
+      "05-05": ["🇰🇷 어린이날"],
+      "06-06": ["🇰🇷 현충일"],
+      "07-04": ["🇺🇸 Independence Day"],
+      "08-15": ["🇰🇷 광복절"],
+      "10-03": ["🇰🇷 개천절"],
+      "10-09": ["🇰🇷 한글날"],
+      "11-11": ["🇺🇸 Veterans Day"],
+      "12-25": ["🇰🇷 성탄절", "🇺🇸 Christmas Day"],
+    };
+
+    function getHolidayLabels(dateStr) {
+      const parts = dateStr.split("-");
+      if (parts.length !== 3) return null;
+      const key = parts[1] + "-" + parts[2];
+      const labels = HOLIDAYS[key];
+      return labels || null;
+    }
+
+    let selectedDate = toLocalISO(new Date());
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let monthSummary = {};
+    const rowState = {};
+    let currentUserId = null;
+
+    function setCurrentUser(id) {
+      currentUserId = id;
+      if (id && USERS[id]) {
+        userBadge.textContent = USERS[id].label;
+        userBadge.classList.remove("user-badge-hidden");
+      } else {
+        userBadge.classList.add("user-badge-hidden");
+      }
+    }
+
+    function showLoginView() {
+      loginView.classList.add("active");
+      listView.classList.remove("active");
+      calendarView.classList.remove("active");
+    }
+    function showListView() {
+      loginView.classList.remove("active");
+      listView.classList.add("active");
+      calendarView.classList.remove("active");
+    }
+    function showCalendarViewSafe() {
+      if (!currentUserId) {
+        alert("먼저 이름을 선택해 주세요!");
+        showLoginView();
+        return;
+      }
+      loginView.classList.remove("active");
+      listView.classList.remove("active");
+      calendarView.classList.add("active");
+    }
+
+    function toLocalISO(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function isCheckWindow() {
+      try {
+        const now = new Date();
+        const kstHour = Number(
+          new Intl.DateTimeFormat("en-US", {
+            hour: "numeric",
+            hour12: false,
+            timeZone: "Asia/Seoul",
+          }).format(now)
+        );
+        return kstHour >= 19 || kstHour <= 2; // 7pm~2am KST
+      } catch {
+        const h = new Date().getHours();
+        return h >= 19 || h <= 2;
+      }
+    }
+
+    function updateModeUI() {
+      const checkMode = isCheckWindow();
+      document.querySelectorAll(".status-box").forEach((box) => {
+        if (checkMode) {
+          box.classList.remove("hidden");
+        } else {
+          box.classList.add("hidden");
+        }
+      });
+    }
+
+    function initRows() {
+      taskBody.innerHTML = "";
+      for (let i = 1; i <= MAX_TASKS; i++) {
+        rowState[i] = { text: "", status: "pending" };
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <input class="task-input" data-idx="${i}" placeholder="Task ${i}" />
+          </td>
+          <td>
+            <div class="status-box hidden" data-idx="${i}">
+              <button type="button" class="status-btn status-btn-done">✓</button>
+              <button type="button" class="status-btn status-btn-missed">•</button>
+            </div>
+          </td>
+        `;
+        taskBody.appendChild(tr);
+      }
+
+      document.querySelectorAll(".task-input").forEach((input) => {
+        input.addEventListener("input", () => {
+          const idx = Number(input.dataset.idx);
+          rowState[idx].text = input.value;
+        });
+      });
+
+      document.querySelectorAll(".status-box").forEach((box) => {
+        const idx = Number(box.dataset.idx);
+        const btnDone = box.querySelector(".status-btn-done");
+        const btnMissed = box.querySelector(".status-btn-missed");
+
+        function refreshButtons() {
+          btnDone.classList.remove("done-active");
+          btnMissed.classList.remove("missed-active");
+          const st = rowState[idx].status;
+          if (!rowState[idx].text.trim()) {
+            rowState[idx].status = "pending";
+            return;
+          }
+          if (st === "done") {
+            btnDone.classList.add("done-active");
+          } else if (st === "missed") {
+            btnMissed.classList.add("missed-active");
+          }
+        }
+
+        btnDone.addEventListener("click", () => {
+          if (!rowState[idx].text.trim()) return;
+          rowState[idx].status =
+            rowState[idx].status === "done" ? "pending" : "done";
+          refreshButtons();
+          playfulFeedback();
+        });
+
+        btnMissed.addEventListener("click", () => {
+          if (!rowState[idx].text.trim()) return;
+          rowState[idx].status =
+            rowState[idx].status === "missed" ? "pending" : "missed";
+          refreshButtons();
+          playfulFeedback();
+        });
+
+        refreshButtons();
+      });
+
+      updateModeUI();
+    }
+
+    function applyRows(tasks) {
+      for (let i = 1; i <= MAX_TASKS; i++) {
+        rowState[i] = { text: "", status: "pending" };
+      }
+      (tasks || []).forEach((t) => {
+        if (t.idx >= 1 && t.idx <= MAX_TASKS) {
+          rowState[t.idx] = {
+            text: t.title || "",
+            status: t.status || "pending",
+          };
+        }
+      });
+
+      document.querySelectorAll(".task-input").forEach((input) => {
+        const idx = Number(input.dataset.idx);
+        input.value = rowState[idx].text;
+      });
+
+      document.querySelectorAll(".status-box").forEach((box) => {
+        const idx = Number(box.dataset.idx);
+        const btnDone = box.querySelector(".status-btn-done");
+        const btnMissed = box.querySelector(".status-btn-missed");
+        btnDone.classList.remove("done-active");
+        btnMissed.classList.remove("missed-active");
+        const st = rowState[idx].status;
+        if (!rowState[idx].text.trim()) rowState[idx].status = "pending";
+        if (st === "done") {
+          btnDone.classList.add("done-active");
+        } else if (st === "missed") {
+          btnMissed.classList.add("missed-active");
+        }
+      });
+
+      updateModeUI();
+    }
+
+    function setMsg(text, type) {
+      msgEl.textContent = text || "";
+      msgEl.className = "msg" + (type ? " " + type : "");
+    }
+
+    function playfulFeedback() {
+      const tasksFilled = Object.values(rowState).filter((t) =>
+        t.text.trim()
+      );
+      const allDone =
+        tasksFilled.length > 0 &&
+        tasksFilled.every((t) => t.status === "done");
+
+      if (allDone) {
+        setMsg("Nice. All checked ✅", "ok");
+        document.body.classList.add("celebrate");
+        setTimeout(() => document.body.classList.remove("celebrate"), 900);
+      } else {
+        setMsg("Updated 🌙", "ok");
+      }
+    }
+
+    async function loadDay(dateStr) {
+      if (!currentUserId) return;
+      setMsg("", "");
+      const { data, error } = await supabaseClient
+        .from("daily_tasks")
+        .select("*")
+        .eq("user_id", currentUserId)
+        .eq("task_date", dateStr)
+        .order("idx", { ascending: true });
+      if (error) {
+        console.error(error);
+        setMsg("Error", "error");
+        applyRows([]);
+        return;
+      }
+      applyRows(data || []);
+    }
+
+    async function saveDay(dateStr) {
+      if (!currentUserId) {
+        alert("먼저 이름을 선택해 주세요!");
+        return;
+      }
+      const tasks = [];
+      for (let i = 1; i <= MAX_TASKS; i++) {
+        const { text, status } = rowState[i];
+        if (text && text.trim()) {
+          tasks.push({
+            user_id: currentUserId,
+            task_date: dateStr,
+            idx: i,
+            title: text.trim(),
+            status: status || "pending",
+          });
+        }
+      }
+
+      const { error: delError } = await supabaseClient
+        .from("daily_tasks")
+        .delete()
+        .eq("user_id", currentUserId)
+        .eq("task_date", dateStr);
+      if (delError) {
+        console.error(delError);
+        setMsg("Error", "error");
+        return;
+      }
+
+      if (tasks.length === 0) {
+        setMsg("Cleared", "ok");
+        await loadMonth(currentYear, currentMonth);
+        renderCalendar();
+        return;
+      }
+
+      const { error: insError } = await supabaseClient
+        .from("daily_tasks")
+        .insert(tasks);
+      if (insError) {
+        console.error(insError);
+        setMsg("Error", "error");
+        return;
+      }
+      setMsg("Saved", "ok");
+      await loadMonth(currentYear, currentMonth);
+      renderCalendar();
+    }
+
+    async function clearDay(dateStr) {
+      if (!currentUserId) return;
+      const { error } = await supabaseClient
+        .from("daily_tasks")
+        .delete()
+        .eq("user_id", currentUserId)
+        .eq("task_date", dateStr);
+      if (error) {
+        console.error(error);
+        setMsg("Error", "error");
+        return;
+      }
+      applyRows([]);
+      setMsg("Cleared", "ok");
+      await loadMonth(currentYear, currentMonth);
+      renderCalendar();
+    }
+
+    async function loadMonth(year, month) {
+      if (!currentUserId) {
+        monthSummary = {};
+        return;
+      }
+      const from = toLocalISO(new Date(year, month, 1));
+      const to = toLocalISO(new Date(year, month + 1, 0));
+      const { data, error } = await supabaseClient
+        .from("daily_tasks")
+        .select("user_id, task_date, idx, title, status")
+        .eq("user_id", currentUserId)
+        .gte("task_date", from)
+        .lte("task_date", to);
+      if (error) {
+        console.error(error);
+        setMsg("Error", "error");
+        monthSummary = {};
+        return;
+      }
+      const summary = {};
+      (data || []).forEach((row) => {
+        const d = row.task_date;
+        if (!summary[d]) {
+          summary[d] = {
+            total: 0,
+            tasks: [],
+          };
+        }
+        const st = row.status || "pending";
+        summary[d].tasks.push({
+          idx: row.idx,
+          title: row.title,
+          status: st,
+        });
+        summary[d].total++;
+      });
+      monthSummary = summary;
+    }
+
+    function renderCalendar() {
+      calendarGrid.innerHTML = "";
+      monthLabel.textContent = `${currentYear}-${String(
+        currentMonth + 1
+      ).padStart(2, "0")}`;
+
+      const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      weekdayNames.forEach((w) => {
+        const div = document.createElement("div");
+        div.className = "weekday";
+        div.textContent = w;
+        calendarGrid.appendChild(div);
+      });
+
+      const first = new Date(currentYear, currentMonth, 1);
+      const last = new Date(currentYear, currentMonth + 1, 0);
+      const daysInMonth = last.getDate();
+      const startDay = first.getDay();
+      const todayStr = toLocalISO(new Date());
+
+      for (let i = 0; i < startDay; i++) {
+        const empty = document.createElement("div");
+        empty.className = "cell empty";
+        calendarGrid.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        const d = new Date(currentYear, currentMonth, day);
+        const dateStr = toLocalISO(d);
+        cell.dataset.date = dateStr;
+        if (dateStr === selectedDate) cell.classList.add("selected");
+
+        const top = document.createElement("div");
+        top.className = "cell-top";
+        const num = document.createElement("div");
+        num.className = "cell-date";
+        num.textContent = day;
+
+        if (dateStr === todayStr) {
+          num.classList.add("today-date");
+        }
+
+        top.appendChild(num);
+        cell.appendChild(top);
+
+        const holidayLabels = getHolidayLabels(dateStr);
+        if (holidayLabels) {
+          holidayLabels.forEach((label) => {
+            const holidayRow = document.createElement("div");
+            holidayRow.className = "holiday-row";
+            holidayRow.textContent = label;
+            cell.appendChild(holidayRow);
+          });
+        }
+
+        const mini = document.createElement("div");
+        mini.className = "tasks-mini";
+        const info = monthSummary[dateStr];
+        let allDone = false;
+        let allMissed = false;
+
+        if (info && info.tasks.length > 0) {
+          allDone = info.tasks.every((t) => t.status === "done");
+          allMissed = info.tasks.every((t) => t.status === "missed");
+
+          info.tasks
+            .sort((a, b) => a.idx - b.idx)
+            .slice(0, 5)
+            .forEach((t) => {
+              const chip = document.createElement("div");
+              chip.className = "task-chip";
+              const dot = document.createElement("span");
+              dot.className =
+                "chip-dot " +
+                (t.status === "done"
+                  ? "done"
+                  : t.status === "missed"
+                  ? "missed"
+                  : "pending");
+              const text = document.createElement("span");
+              text.className = "chip-label";
+              text.textContent = t.title;
+              chip.appendChild(dot);
+              chip.appendChild(text);
+              mini.appendChild(chip);
+            });
+        }
+        cell.appendChild(mini);
+
+        if (info && info.tasks.length > 0) {
+          if (allDone) {
+            cell.classList.add("done-day");
+          } else if (allMissed) {
+            cell.classList.add("missed-day");
+          }
+        }
+
+        cell.addEventListener("click", () => {
+          selectedDate = dateStr;
+          dateInput.value = selectedDate;
+          loadDay(selectedDate);
+          document.querySelectorAll(".cell").forEach((c) =>
+            c.classList.remove("selected")
+          );
+          cell.classList.add("selected");
+          showListView();
+        });
+
+        calendarGrid.appendChild(cell);
+      }
+    }
+
+    // Weather from Open-Meteo (Seoul)
+    function weatherEmoji(code, isDay) {
+      if (code === 0) return isDay ? "☀️" : "🌙";
+      if (code === 1 || code === 2) return "🌤️";
+      if (code === 3) return "☁️";
+      if (code >= 45 && code <= 48) return "🌫️";
+      if (code >= 51 && code <= 67) return "🌦️";
+      if (code >= 71 && code <= 77) return "🌨️";
+      if (code >= 80 && code <= 82) return "🌧️";
+      if (code >= 95 && code <= 99) return "⛈️";
+      return "⛅";
+    }
+
+    async function loadWeather() {
+      if (!weatherBox) return;
+      try {
+        const res = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true&timezone=Asia%2FSeoul"
+        );
+        if (!res.ok) throw new Error("weather error");
+        const data = await res.json();
+        const cw = data.current_weather;
+        if (!cw) return;
+        const temp = Math.round(cw.temperature);
+        const code = cw.weathercode;
+        const emoji = weatherEmoji(code, cw.is_day);
+        weatherBox.textContent = `${emoji} ${temp}°C`;
+      } catch (e) {
+        console.error(e);
+        weatherBox.textContent = "⛅";
+      }
+    }
+
+    // View switching
+    calendarViewBtn.addEventListener("click", () => {
+      showCalendarViewSafe();
+    });
+    backToListBtn.addEventListener("click", () => {
+      showListView();
+    });
+
+    // User badge click -> switch user
+    userBadge.addEventListener("click", () => {
+      if (!currentUserId) return;
+      if (confirm("다른 이름으로 바꿀까요?")) {
+        currentUserId = null;
+        localStorage.removeItem(STORAGE_KEY_USER);
+        setCurrentUser(null);
+        showLoginView();
+      }
+    });
+
+    // Login user cards
+    document.querySelectorAll(".user-card").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const userId = btn.dataset.userId;
+        if (!USERS[userId]) return;
+        setCurrentUser(userId);
+        localStorage.setItem(STORAGE_KEY_USER, userId);
+        showListView();
+        selectedDate = toLocalISO(new Date());
+        dateInput.value = selectedDate;
+        await loadMonth(currentYear, currentMonth);
+        renderCalendar();
+        await loadDay(selectedDate);
+      });
+    });
+
+    // List view events
+    dateInput.addEventListener("change", () => {
+      if (!dateInput.value) return;
+      selectedDate = dateInput.value;
+      const d = new Date(selectedDate + "T00:00:00");
+      currentYear = d.getFullYear();
+      currentMonth = d.getMonth();
+      loadMonth(currentYear, currentMonth).then(() => {
+        renderCalendar();
+        loadDay(selectedDate);
+      });
+    });
+
+    saveBtn.addEventListener("click", () => {
+      saveDay(selectedDate);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      if (confirm("Clear this day?")) {
+        clearDay(selectedDate);
+      }
+    });
+
+    // Calendar nav
+    prevMonthBtn.addEventListener("click", () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      loadMonth(currentYear, currentMonth).then(() => {
+        renderCalendar();
+      });
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      loadMonth(currentYear, currentMonth).then(() => {
+        renderCalendar();
+      });
+    });
+
+    async function init() {
+      initRows();
+      selectedDate = toLocalISO(new Date());
+      if (dateInput) dateInput.value = selectedDate;
+
+      const savedUser = localStorage.getItem(STORAGE_KEY_USER);
+      if (savedUser && USERS[savedUser]) {
+        setCurrentUser(savedUser);
+        showListView();
+        await loadMonth(currentYear, currentMonth);
+        renderCalendar();
+        await loadDay(selectedDate);
+      } else {
+        setCurrentUser(null);
+        showLoginView();
+      }
+
+      updateModeUI();
+      loadWeather();
+      setInterval(updateModeUI, 60 * 1000);
+      setInterval(loadWeather, 30 * 60 * 1000);
+    }
+
+    init();
+  </script>
+</body>
+</html>

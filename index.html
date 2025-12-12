@@ -438,8 +438,8 @@
       transition: background 0.15s, border 0.15s, transform 0.07s;
       font-size: 0.8rem;
       align-items: flex-start;
-      aspect-ratio: 7 / 5;       /* 🔹 shorter cells: whole month fits easier */
-      overflow: hidden;
+      /* 🔹 Fixed default size, row can grow if content is taller */
+      min-height: 70px;
     }
     .cell.empty {
       background: transparent;
@@ -657,7 +657,7 @@
         padding: 1px 0;
       }
       .cell {
-        aspect-ratio: 6 / 5;   /* 🔹 even shorter on mobile */
+        min-height: 56px;  /* smaller default on mobile, still can grow */
         font-size: 0.7rem;
         padding: 3px 2px;
       }

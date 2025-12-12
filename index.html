@@ -479,6 +479,7 @@
       color: #1f3354;
       display: inline-flex;
       align-items: center;
+      padding: 0 2px;
     }
 
     .today-date {
@@ -490,9 +491,14 @@
       font-weight: 700;
     }
 
-    .holiday-flags {
-      margin-left: 3px;
-      font-size: 0.8rem;
+    /* 🌸 Holiday circle – pastel red */
+    .holiday-date {
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 2px solid #f8b4c4;
+      background: #ffeef2;
+      color: #8c3a4b;
+      font-weight: 700;
     }
 
     .tasks-mini {
@@ -663,9 +669,6 @@
       }
       .cell-date {
         font-size: 0.75rem;
-      }
-      .holiday-flags {
-        font-size: 0.7rem;
       }
       .chip-label {
         font-size: 0.7rem;
@@ -879,16 +882,16 @@
     const mobileWeekList = document.getElementById("mobileWeekList");
 
     const HOLIDAYS = {
-      "01-01": ["🇰🇷", "🇺🇸"],
-      "03-01": ["🇰🇷"],
-      "05-05": ["🇰🇷"],
-      "06-06": ["🇰🇷"],
-      "07-04": ["🇺🇸"],
-      "08-15": ["🇰🇷"],
-      "10-03": ["🇰🇷"],
-      "10-09": ["🇰🇷"],
-      "11-11": ["🇺🇸"],
-      "12-25": ["🇰🇷", "🇺🇸"],
+      "01-01": ["KR", "US"],
+      "03-01": ["KR"],
+      "05-05": ["KR"],
+      "06-06": ["KR"],
+      "07-04": ["US"],
+      "08-15": ["KR"],
+      "10-03": ["KR"],
+      "10-09": ["KR"],
+      "11-11": ["US"],
+      "12-25": ["KR", "US"],
     };
 
     function getHolidayLabels(dateStr) {
@@ -1503,10 +1506,7 @@
 
         const holidayLabels = getHolidayLabels(dateStr);
         if (holidayLabels) {
-          const flagSpan = document.createElement("span");
-          flagSpan.className = "holiday-flags";
-          flagSpan.textContent = holidayLabels.join("");
-          num.appendChild(flagSpan);
+          num.classList.add("holiday-date");
         }
 
         top.appendChild(num);
